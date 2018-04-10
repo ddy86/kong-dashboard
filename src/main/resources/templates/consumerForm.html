@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+        <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/css/default.css}" rel="stylesheet"/>
+        <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
+        <meta charset="UTF-8"/>
+        <title>consumersAdd</title>
+    </head>
+
+    <body>
+        <div th:include="top :: html"></div>
+        <div class="contentDiv">
+            <legend>
+                <strong><label th:text="${action}"></label> consumer</strong>
+            </legend>
+
+            <form action="/consumers/save" method="post" class="form-horizontal">
+                <input type="hidden" th:value="${consumer.id}" id="consumer_id" name="id"/>
+                <div class="form-group">
+                    <label for="consumer_username" class="col-sm-2 control-label">username:</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="consumer_username" name="username" th:value="${consumer.username}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="consumer_custom_id" class="col-sm-2 control-label">custom_id:</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="consumer_custom_id" name="custom_id" th:value="${consumer.custom_id}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input class="btn btn-primary" type="submit" value="submit"/>&nbsp;&nbsp;
+                        <input class="btn " type="button" value="go back" onclick="history.back()"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

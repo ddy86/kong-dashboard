@@ -6,15 +6,9 @@ import com.arronlong.httpclientutil.HttpClientUtil;
 import com.arronlong.httpclientutil.common.HttpConfig;
 import com.arronlong.httpclientutil.exception.HttpProcessException;
 import com.github.kevinsawicki.http.HttpRequest;
-import com.hongen.kong.model.Consumer;
-import com.hongen.kong.model.KongPlugin;
-import com.hongen.kong.model.KongRoute;
-import com.hongen.kong.model.KongService;
+import com.hongen.kong.model.*;
 import com.hongen.kong.utils.HttpRequestUtils;
-import com.hongen.kong.vo.ConsumersVo;
-import com.hongen.kong.vo.KongPluginsVo;
-import com.hongen.kong.vo.KongRoutesVo;
-import com.hongen.kong.vo.KongServicesVo;
+import com.hongen.kong.vo.*;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
@@ -184,17 +178,6 @@ public class KongDashboardServiceImpl implements KongDashboardService {
     }
 
 
-    @Override
-    public List<Consumer> getConsumers() {
-        String url = kongServer + "/consumers";
-        HttpRequest result =  HttpRequest.get(url);
-        if(result.code() != 200){
-            return null;
-        }
-        String data = result.body();
-        final ConsumersVo consumersVo = JSON.parseObject(data, new TypeReference<ConsumersVo>() {});
-        return consumersVo.getData();
-    }
 
     @Override
     public List<KongPlugin> getPlugins(String service, String route_id) {
@@ -263,5 +246,65 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         String url = kongServer + "/plugins/" + plugin_id;
         final String data = HttpRequestUtils.delete(url);
         logger.info("delete plugin success! data:{}",data);
+    }
+    @Override
+    public List<Consumer> getConsumers() {
+        String url = kongServer + "/consumers";
+        HttpRequest result =  HttpRequest.get(url);
+        if(result.code() != 200){
+            return null;
+        }
+        String data = result.body();
+        final ConsumersVo consumersVo = JSON.parseObject(data, new TypeReference<ConsumersVo>() {});
+        return consumersVo.getData();
+    }
+
+    @Override
+    public Consumer getConsumer(String usernameOrId) {
+        String url = kongServer + "/consumers/" + usernameOrId;
+        final String data = HttpRequestUtils.get(url);
+        final Consumer consumer = JSON.parseObject(data, new TypeReference<Consumer>() {
+        });
+        return consumer;
+    }
+
+    @Override
+    public void addConsumer(Consumer consumer) {
+        String url = kongServer + "/consumers";
+        Map<String,Object> map = new HashMap<>();
+        map.put("username",consumer.getUsername());
+        map.put("custom_id",consumer.getCustom_id());
+        String json = JSON.toJSONString(map);
+        logger.info("add consumer {}", json);
+        final String data = HttpRequestUtils.post(url, json);
+        logger.info("add consumer success! data:{}",data);
+    }
+
+    @Override
+    public void updateConsumer(Consumer consumer) {
+        String url = kongServer + "/consumers/" + consumer.getId();
+        Map<String,Object> map = new HashMap<>();
+        map.put("username",consumer.getUsername());
+        map.put("custom_id",consumer.getCustom_id());
+        String json = JSON.toJSONString(map);
+        logger.info("update consumer {}", json);
+        final String data = HttpRequestUtils.patch(url, json);
+        logger.info("update consumer success! data:{}",data);
+    }
+
+    @Override
+    public void deleteConsumer(String usernameOrCustom_id) {
+        String url = kongServer + "/consumers/" + usernameOrCustom_id;
+        final String data = HttpRequestUtils.delete(url);
+        logger.info("delete consumer success! data:{}",data);
+    }
+
+    @Override
+    public List<ConsumerJwt> getConsumerJwts(String username) {
+        String url = kongServer + "/consumers/" + username + "/jwt";
+        final String data = HttpRequestUtils.get(url);
+        final ConsumerJwtVo consumerJwtVo = JSON.parseObject(data, new TypeReference<ConsumerJwtVo>() {
+        });
+        return consumerJwtVo.getData();
     }
 }

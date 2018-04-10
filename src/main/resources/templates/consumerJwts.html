@@ -6,7 +6,7 @@
         <link th:href="@{/css/default.css}" rel="stylesheet"/>
         <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
         <meta charset="UTF-8"/>
-        <title>consumers</title>
+        <title>consumersJwt</title>
     </head>
 
     <body>
@@ -15,33 +15,35 @@
 
             <table class="table table-hover table-condensed">
                 <legend>
-                    <strong>/consumers</strong>
+                    <strong>/consumers/<a th:text="${consumer.username}"></a>/Jwts</strong>
                 </legend>
                 <thead>
                     <tr>
                         <th>id</th>
-                        <th>username</th>
-                        <th>custom_id</th>
+                        <th>consumer_id</th>
+                        <th>key</th>
+                        <th>secret</th>
+                        <th>algorithm</th>
                         <th>created_at</th>
                         <th>operate</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="consumer : ${consumers}">
-                        <th scope="row" th:text="${consumer.id}"></th>
-                        <td th:text="${consumer.username}"></td>
-                        <td th:text="${consumer.custom_id}"></td>
-                        <td th:text="${#dates.format(consumer.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <tr th:each="jwt : ${jwts}">
+                        <th scope="row" th:text="${jwt.id}"></th>
+                        <td th:text="${jwt.consumer_id}"></td>
+                        <td th:text="${jwt.key}"></td>
+                        <td th:text="${jwt.secret}"></td>
+                        <td th:text="${jwt.algorithm}"></td>
+                        <td th:text="${#dates.format(jwt.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
-                            <a class="btn btn-info" th:href="@{'/consumers/' + ${consumer.username} + '/jwt'}">jwt</a>
-                            <a class="btn btn-primary" th:href="@{'/consumers/' + ${consumer.id}}">update</a>
-                            <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:value="${consumer.id}">delete</a>
+                            <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:consumerId="${jwt.consumer_id}" th:jwt="${jwt.id}">delete</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <div><a class="btn btn-primary" href="/consumers/add" role="button">add consumer</a></div>
+            <div><a class="btn btn-primary" href="javascript:void(0)" role="button">add jwt</a></div>
         </div>
         <script type="application/javascript">
             $(function(){
@@ -49,8 +51,8 @@
                     if(!confirm("Make sure to delete this?")){
                         return;
                     }
-                    var consumer_id = $(this).attr('value');
-                    var url = "/consumers/" + consumer_id + "/del";
+                    var jwt_id = $(this).attr('value');
+                    var url = "/jwts/" + jwt_id + "/del";
                     $.ajax({
                         url: url,
                         async: false,

@@ -1,10 +1,7 @@
 package com.hongen.kong.service;
 
 
-import com.hongen.kong.model.Consumer;
-import com.hongen.kong.model.KongPlugin;
-import com.hongen.kong.model.KongRoute;
-import com.hongen.kong.model.KongService;
+import com.hongen.kong.model.*;
 
 import java.util.List;
 
@@ -26,7 +23,6 @@ public interface KongDashboardService {
     void deleteRoute(String route_id);
 
 
-    List<Consumer> getConsumers();
 
     List<KongPlugin> getPlugins(String service, String route_id);
     KongPlugin getPlugin(String plugin_id);
@@ -34,4 +30,11 @@ public interface KongDashboardService {
     void updatePlugin(KongPlugin plugin);
     void deletePlugin(String plugin_id);
 
+    List<Consumer> getConsumers();
+    Consumer getConsumer(String usernameOrId);
+    void addConsumer(Consumer consumer);
+    void updateConsumer(Consumer consumer);
+    void deleteConsumer(String usernameOrCustom_id);
+
+    List<ConsumerJwt> getConsumerJwts(String username);
 }

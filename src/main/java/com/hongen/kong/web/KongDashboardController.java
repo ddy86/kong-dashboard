@@ -133,12 +133,6 @@ public class KongDashboardController {
     }
 
 
-    @RequestMapping(value = "/consumers",method = RequestMethod.GET)
-    public String getConsumersList(ModelMap map){
-        final List<Consumer> consumers = kongDashboardService.getConsumers();
-        map.addAttribute("consumers", consumers);
-        return "consumers";
-    }
 
     @RequestMapping(value = "/plugins",method = RequestMethod.GET)
     public String getPluginsList(ModelMap map,@RequestParam(value = "service",required = false) String service,
@@ -206,5 +200,51 @@ public class KongDashboardController {
     }
 
 
+    @RequestMapping(value = "/consumers",method = RequestMethod.GET)
+    public String getConsumersList(ModelMap map){
+        final List<Consumer> consumers = kongDashboardService.getConsumers();
+        map.addAttribute("consumers", consumers);
+        return "consumers";
+    }
 
+    @RequestMapping(value = "/consumers/add",method = RequestMethod.GET)
+    public String addConsumer(ModelMap map){
+        Consumer consumer = new Consumer();
+        map.addAttribute("consumer",consumer);
+        map.addAttribute("action","add");
+        return "consumerForm";
+    }
+
+    @RequestMapping(value = "/consumers/{usernameOrId}",method = RequestMethod.GET)
+    public String updateConsumer(ModelMap map, @PathVariable String usernameOrId){
+        final Consumer consumer = kongDashboardService.getConsumer(usernameOrId);
+        map.addAttribute("consumer", consumer);
+        map.addAttribute("action", "update");
+        return "consumerForm";
+    }
+
+    @RequestMapping(value = "/consumers/save", method = RequestMethod.POST)
+    public String saveConsumer(@ModelAttribute Consumer consumer) {
+        if(StringUtils.isEmpty(consumer.getId())){
+            kongDashboardService.addConsumer(consumer);
+        }else{
+            kongDashboardService.updateConsumer(consumer);
+        }
+        return "redirect:/consumers/";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/consumers/{usernameOrId}/del",method = RequestMethod.DELETE)
+    public void delConsumer(@PathVariable String usernameOrId){
+        kongDashboardService.deleteConsumer(usernameOrId);
+    }
+
+    @RequestMapping(value = "/consumers/{username}/jwt",method = RequestMethod.GET)
+    public String getConsumerJWT(ModelMap map, @PathVariable String username){
+        final List<ConsumerJwt> jwts = kongDashboardService.getConsumerJwts(username);
+        final Consumer consumer = kongDashboardService.getConsumer(username);
+        map.addAttribute("consumer", consumer);
+        map.addAttribute("jwts", jwts);
+        return "consumerJwts";
+    }
 }
