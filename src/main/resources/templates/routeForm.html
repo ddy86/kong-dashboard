@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+        <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/css/default.css}" rel="stylesheet"/>
+        <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
+        <meta charset="UTF-8"/>
+        <title>routeForm</title>
+    </head>
+
+    <body>
+        <div th:include="top :: html"></div>
+        <div class="contentDiv">
+            <legend>
+                <strong><label th:text="${action}"></label> route : <label th:text="${service.url}"></label></strong>
+            </legend>
+
+            <form action="/routes/save" method="post" class="form-horizontal">
+                <input type="hidden" th:value="${route.id}" id="route_id" name="id"/>
+                <input type="hidden" th:value="${service.id}" id="service_id" name="service.id"/>
+                <div class="form-group">
+                    <label for="route_hosts" class="col-sm-2 control-label">hosts</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="route_hosts" name="hosts" th:value="${route.hosts}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="route_paths" class="col-sm-2 control-label">paths:</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="route_paths" name="paths" th:value="${route.paths}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="route_protocols" class="col-sm-2 control-label">protocols:</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="route_protocols" name="" th:value="${route.protocols}" value="[http, https]"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="route_methods" class="col-sm-2 control-label">methods:</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="route_methods" name="methods" th:value="${route.methods}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input class="btn btn-primary" type="submit" value="submit"/>&nbsp;&nbsp;
+                        <input class="btn " type="button" value="go back" onclick="history.back()"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    <script type="application/javascript">
+        $(function(){
+            $('input[type=text]').each(function(){
+                var text = $(this).val();
+                if(text.startsWith("[") && text.endsWith(']')){
+                    $(this).val(text.substring(1,text.length-1));
+                }
+            })
+        })
+    </script>
+    </body>
+</html>

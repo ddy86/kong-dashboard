@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+        <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/css/default.css}" rel="stylesheet"/>
+        <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
+        <meta charset="UTF-8"/>
+        <title>serviceAdd</title>
+    </head>
+
+    <body>
+        <div th:include="top :: html"></div>
+        <div class="contentDiv">
+            <legend>
+                <strong><label th:text="${action}"></label> service</strong>
+            </legend>
+
+            <form action="/services/save" method="post" class="form-horizontal">
+                <input type="hidden" th:value="${service.id}" id="service_id" name="id"/>
+                <div class="form-group">
+                    <label for="service_name" class="col-sm-2 control-label">name</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="service_name" name="name" th:value="${service.name}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="service_url" class="col-sm-2 control-label">url:</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="service_url" name="url" th:value="${service.url}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input class="btn btn-primary" type="submit" value="submit"/>&nbsp;&nbsp;
+                        <input class="btn " type="button" value="go back" onclick="history.back()"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

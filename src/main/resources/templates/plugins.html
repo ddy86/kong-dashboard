@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+        <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/css/default.css}" rel="stylesheet"/>
+        <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
+        <meta charset="UTF-8"/>
+        <title>plugins</title>
+    </head>
+
+    <body>
+        <div th:include="top :: html"></div>
+        <div class="contentDiv">
+
+            <table class="table table-hover table-condensed">
+                <legend>
+                    <strong><a th:text="${serviceName}"/><a th:if="${route_id}">/</a><a th:text="${route_id}"/>/plugins</strong>
+                </legend>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>service_id</th>
+                        <th>route_id</th>
+                        <th>enabled</th>
+                        <th>config.claims_to_verify</th>
+                        <th>created_at</th>
+                        <th>operate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="plugin : ${plugins}">
+                        <th scope="row" th:text="${plugin.id}"></th>
+                        <td th:text="${plugin.name}"></td>
+                        <td>
+                            <a class="service_id" th:href="@{'/services/'+${plugin.service_id}}"><p th:text="${plugin.service_id}"></p></a>
+                        </td>
+                        <td th:text="${plugin.route_id}"></td>
+                        <td th:text="${plugin.enabled}"></td>
+                        <td th:text="${plugin.config.claims_to_verify}"></td>
+                        <td th:text="${#dates.format(plugin.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td>
+                            <a class="btn btn-primary" th:href="@{'/plugins/' + ${plugin.id}}">update</a>
+                            <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:value="${plugin.id}">delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div><a class="btn btn-primary" th:if="${route_id}" th:href="@{/plugins/add(route_id=${route_id})}" role="button">add plugin</a></div>
+            <div><a class="btn btn-primary" th:if="${service_id}" th:href="@{/plugins/add(service_id=${service_id})}" role="button">add plugin</a></div>
+        </div>
+    <script type="application/javascript">
+        $(function(){
+
+            $('.btn-delete').click(function(){
+                if(!confirm("Make sure to delete this?")){
+                    return;
+                }
+                var plugin_id = $(this).attr('value');
+                var url = "/plugins/"+plugin_id + "/del";
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: "delete",
+                    success: function(){
+                        window.location.reload();
+                    },
+                    error: function(e){
+                        alert(e.message);
+                        window.location.reload();
+                    }
+                })
+            });
+
+            $('.service_id').each(function(){
+                var this_service_id = $(this).text();
+                if(this_service_id != '' && null != this_service_id){
+                    var serviceResponse = $.ajax({url:"/services/"+this_service_id+"/obj",async:false});
+                    var serviceJson = serviceResponse.responseText;
+                    var serviceObj = eval('(' + serviceJson + ')');
+                    $(this).text(serviceObj.name);
+                }
+            })
+        })
+    </script>
+    </body>
+</html>

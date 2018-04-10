@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+        <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/css/default.css}" rel="stylesheet"/>
+        <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
+        <meta charset="UTF-8"/>
+        <title>consumers</title>
+    </head>
+
+    <body>
+        <div th:include="top :: html"></div>
+        <div class="contentDiv">
+
+            <table class="table table-hover table-condensed">
+                <legend>
+                    <strong>/consumers</strong>
+                </legend>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>username</th>
+                        <th>custom_id</th>
+                        <th>created_at</th>
+                        <th>operate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="consumer : ${consumers}">
+                        <th scope="row" th:text="${consumer.id}"></th>
+                        <td th:text="${consumer.username}"></td>
+                        <td th:text="${consumer.custom_id}"></td>
+                        <td th:text="${#dates.format(consumer.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td>
+                            <a class="btn btn-info" href="/routes?service=${service.id}">routes</a>
+                            <a class="btn btn-danger" href="#">delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div><a class="btn btn-primary" href="/services/add" role="button">add consumer</a></div>
+        </div>
+
+    </body>
+</html>

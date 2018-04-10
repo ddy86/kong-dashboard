@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+        <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/css/default.css}" rel="stylesheet"/>
+        <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
+        <meta charset="UTF-8"/>
+        <title>pluginForm</title>
+    </head>
+
+    <body>
+        <div th:include="top :: html"></div>
+        <div class="contentDiv">
+            <legend>
+                <strong><label th:text="${action}"></label> plugin,
+                    <label th:text="'route: ' + ${plugin.route_id}" th:if="${plugin.route_id}"></label>
+                    <label th:text="'service: ' + ${plugin.service_id}" th:if="${plugin.service_id}"></label>
+                </strong>
+            </legend>
+
+            <form action="/plugins/save" method="post" class="form-horizontal">
+                <input type="hidden" th:value="${plugin.id}" id="plugin_id" name="id"/>
+                <input type="hidden" th:value="${plugin.service_id}" id="service_id" name="service_id"/>
+                <input type="hidden" th:value="${plugin.route_id}" id="route_id" name="route_id"/>
+                <div class="form-group">
+                    <label for="plugin_name" class="col-sm-2 control-label">name:</label>
+                    <div class="col-xs-4">
+                        <select class="form-control" id="plugin_name" name="name">
+                            <option>request-size-limiting</option>
+                            <option>response-ratelimiting</option>
+                            <option>response-transformer</option>
+                            <option>request-transformer</option>
+                            <option>request-terminatio</option>
+                            <option>correlation-id</option>
+                            <option>ip-restriction</option>
+                            <option>bot-detection</option>
+                            <option>rate-limiting</option>
+                            <option>aws-lambda</option>
+                            <option selected>jwt</option>
+                            <option>basic-auth</option>
+                            <option>ldap-auth</option>
+                            <option>hmac-auth</option>
+                            <option>key-auth</option>
+                            <option>http-log</option>
+                            <option>runscope</option>
+                            <option>file-log</option>
+                            <option>udp-log</option>
+                            <option>datadog</option>
+                            <option>tcp-log</option>
+                            <option>syslog</option>
+                            <option>loggly</option>
+                            <option>oauth2</option>
+                            <option>statsd</option>
+                            <option>cors</option>
+                            <option>acl</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="plugin_config_claims_to_verify" class="col-sm-2 control-label">config.claims_to_verify:</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="plugin_config_claims_to_verify" name="config.claims_to_verify" th:value="${plugin.config.claims_to_verify}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input class="btn btn-primary" type="submit" value="submit"/>&nbsp;&nbsp;
+                        <input class="btn " type="button" value="go back" onclick="history.back()"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    <script type="application/javascript">
+        $(function(){
+            $('input[type=text]').each(function(){
+                var text = $(this).val();
+                if(text.startsWith("[") && text.endsWith(']')){
+                    $(this).val(text.substring(1,text.length-1));
+                }
+            })
+        })
+    </script>
+    </body>
+</html>

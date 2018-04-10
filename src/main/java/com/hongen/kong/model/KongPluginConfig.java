@@ -1,0 +1,75 @@
+package com.hongen.kong.model;
+
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
+import com.sun.xml.internal.ws.runtime.config.ObjectFactory;
+
+import java.util.List;
+
+/**
+ * Created by ddy on 2018/4/8.
+ */
+public class KongPluginConfig {
+    List<String> claims_to_verify;
+    boolean secret_is_base64;
+    String key_claim_name;
+    Object cookie_names;
+    String anonymous;
+    boolean run_on_preflight;
+    List<String> uri_param_names;
+
+    public List<String> getClaims_to_verify() {
+        return claims_to_verify;
+    }
+
+    public void setClaims_to_verify(List<String> claims_to_verify) {
+        this.claims_to_verify = claims_to_verify;
+    }
+
+    public boolean isSecret_is_base64() {
+        return secret_is_base64;
+    }
+
+    public void setSecret_is_base64(boolean secret_is_base64) {
+        this.secret_is_base64 = secret_is_base64;
+    }
+
+    public String getKey_claim_name() {
+        return key_claim_name;
+    }
+
+    public void setKey_claim_name(String key_claim_name) {
+        this.key_claim_name = key_claim_name;
+    }
+
+    public Object getCookie_names() {
+        return cookie_names;
+    }
+
+    public void setCookie_names(Object cookie_names) {
+        this.cookie_names = cookie_names;
+    }
+
+    public String getAnonymous() {
+        return anonymous;
+    }
+
+    public void setAnonymous(String anonymous) {
+        this.anonymous = anonymous;
+    }
+
+    public boolean isRun_on_preflight() {
+        return run_on_preflight;
+    }
+
+    public void setRun_on_preflight(boolean run_on_preflight) {
+        this.run_on_preflight = run_on_preflight;
+    }
+
+    public List<String> getUri_param_names() {
+        return uri_param_names;
+    }
+
+    public void setUri_param_names(List<String> uri_param_names) {
+        this.uri_param_names = uri_param_names;
+    }
+}
