@@ -307,4 +307,18 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         });
         return consumerJwtVo.getData();
     }
+
+    @Override
+    public void addConsumerJwt(String username) {
+        String url = kongServer + "/consumers/" + username + "/jwt";
+        final String data = HttpRequestUtils.post(url);
+        logger.info("add consumer jwt success! data:{}",data);
+    }
+
+    @Override
+    public void delConsumerJwt(String username, String jwt_id) {
+        String url = kongServer + "/consumers/" + username + "/jwt/" + jwt_id;
+        final String data = HttpRequestUtils.delete(url);
+        logger.info("delete consumer jwt success! data:{}",data);
+    }
 }

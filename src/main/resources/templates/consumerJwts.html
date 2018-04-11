@@ -37,22 +37,39 @@
                         <td th:text="${jwt.algorithm}"></td>
                         <td th:text="${#dates.format(jwt.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
-                            <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:consumerId="${jwt.consumer_id}" th:jwt="${jwt.id}">delete</a>
+                            <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:consumerId="${consumer.id}" th:jwt="${jwt.id}">delete</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <div><a class="btn btn-primary" href="javascript:void(0)" role="button">add jwt</a></div>
+            <div><a class="btn btn-primary btn-add" href="javascript:void(0)" role="button" th:consumerId="${consumer.id}">add jwt</a></div>
         </div>
         <script type="application/javascript">
             $(function(){
+                $('.btn-add').click(function(){
+                    var consumerId = $(this).attr('consumerId');
+                    var url = "/consumers/" + consumerId + "/jwt";
+                    $.ajax({
+                        url: url,
+                        async: false,
+                        type: "post",
+                        success: function(){
+                            window.location.reload();
+                        },
+                        error: function(e){
+                            alert(e.message);
+                            window.location.reload();
+                        }
+                    })
+                });
                 $('.btn-delete').click(function(){
                     if(!confirm("Make sure to delete this?")){
                         return;
                     }
-                    var jwt_id = $(this).attr('value');
-                    var url = "/jwts/" + jwt_id + "/del";
+                    var consumerId = $(this).attr('consumerId');
+                    var jwt_id = $(this).attr('jwt');
+                    var url = "/consumers/" + consumerId + "/jwt/" + jwt_id;
                     $.ajax({
                         url: url,
                         async: false,

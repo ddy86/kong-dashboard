@@ -37,4 +37,6 @@ public interface KongDashboardService {
     void deleteConsumer(String usernameOrCustom_id);
 
     List<ConsumerJwt> getConsumerJwts(String username);
+    void addConsumerJwt(String username);
+    void delConsumerJwt(String username, String jwt_id);
 }

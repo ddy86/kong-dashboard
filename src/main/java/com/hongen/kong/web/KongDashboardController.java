@@ -247,4 +247,16 @@ public class KongDashboardController {
         map.addAttribute("jwts", jwts);
         return "consumerJwts";
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/consumers/{username}/jwt",method = RequestMethod.POST)
+    public void addConsumerJWT(@PathVariable String username){
+        kongDashboardService.addConsumerJwt(username);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/consumers/{username}/jwt/{jwt_id}",method = RequestMethod.DELETE)
+    public void delConsumerJWT(@PathVariable String username,@PathVariable String jwt_id){
+        kongDashboardService.delConsumerJwt(username,jwt_id);
+    }
 }

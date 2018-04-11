@@ -27,6 +27,19 @@ public class HttpRequestUtils {
         return result;
     }
 
+    public static String post(String url){
+        logger.info("post url : {}",url);
+        String result = null;
+        try {
+            result = HttpClientUtil.post(
+                    HttpConfig.custom().url(url)
+            );
+        } catch (HttpProcessException e) {
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
     public static String patch(String url,String json){
         logger.info("patch url : {}, json:{}",url,json);
         String result = null;
