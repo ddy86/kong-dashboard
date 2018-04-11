@@ -36,7 +36,9 @@
                 </thead>
                 <tbody>
                     <tr th:each="route : ${routes}">
-                        <td class="service_id" th:text="${route.service.id}"></td>
+                        <th>
+                            <a class="service_id" th:text="${route.service.id}" th:href="@{/routes(service=${route.service.id})}"></a>
+                        </th>
                         <td th:text="${route.hosts}"></td>
                         <td th:text="${route.paths}"></td>
                         <td th:text="${route.protocols}"></td>

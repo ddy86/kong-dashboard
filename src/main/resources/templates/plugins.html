@@ -15,7 +15,7 @@
 
             <table class="table table-hover table-condensed">
                 <legend>
-                    <strong><a th:text="${serviceName}"/><a th:if="${route_id}">/</a><a th:text="${route_id}"/>/plugins</strong>
+                    <strong><a th:if="${serviceName}" th:text="@{'/' + ${serviceName} + '/'}" th:href="@{/plugins(service=${serviceName})}"/><a th:if="${routeInfo}" th:text="@{${routeInfo} + '/'}"></a>plugins</strong>
                 </legend>
                 <thead>
                     <tr>
@@ -34,9 +34,13 @@
                         <th scope="row" th:text="${plugin.id}"></th>
                         <td th:text="${plugin.name}"></td>
                         <td>
-                            <a class="service_id" th:href="@{'/services/'+${plugin.service_id}}"><p th:text="${plugin.service_id}"></p></a>
+                            <a class="service_id" th:if="${plugin.service_id}" th:href="@{/plugins(service=${plugin.service_id})}" th:text="${plugin.service_id}"></a>
                         </td>
-                        <td th:text="${plugin.route_id}"></td>
+                        <td>
+                            <a class="route_id" th:if="${plugin.route_id}" th:href="@{/plugins(route_id=${plugin.route_id})}" th:text="${plugin.route_id}"></a>
+                            <br>
+                            <span th:if="${plugin.route_id}" th:id="${plugin.route_id}"></span>
+                        </td>
                         <td th:text="${plugin.enabled}"></td>
                         <td th:text="${plugin.config.claims_to_verify}"></td>
                         <td th:text="${#dates.format(plugin.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
@@ -83,6 +87,7 @@
                     $(this).text(serviceObj.name);
                 }
             })
+
         })
     </script>
     </body>

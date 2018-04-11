@@ -222,7 +222,9 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         }
         Map<String,Object> map = new HashMap<>();
         map.put("name",plugin.getName());
-        map.put("config",plugin.getConfig());
+        if(plugin.getConfig().getClaims_to_verify().size() > 0){
+            map.put("config",plugin.getConfig());
+        }
         String json = JSON.toJSONString(map);
         logger.info("add plugin {}", json);
         final String data = HttpRequestUtils.post(url, json);

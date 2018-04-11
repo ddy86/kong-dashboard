@@ -146,6 +146,9 @@ public class KongDashboardController {
             KongService kongService = kongDashboardService.getService(null,route_id);
             map.addAttribute("serviceName", kongService.getName());
             map.addAttribute("route_id", route_id);
+            final KongRoute route = kongDashboardService.getRoute(route_id);
+            String routeInfo = route.getHosts() + ":" + route.getPaths();
+            map.addAttribute("routeInfo",routeInfo);
         }
         map.addAttribute("plugins", plugins);
         return "plugins";
