@@ -9,13 +9,23 @@ import java.util.List;
  * Created by ddy on 2018/4/8.
  */
 public class KongPluginConfig {
+    //jwt
     List<String> claims_to_verify;
-    boolean secret_is_base64;
+    Boolean secret_is_base64;
     String key_claim_name;
     Object cookie_names;
     String anonymous;
-    boolean run_on_preflight;
+    Boolean run_on_preflight;
     List<String> uri_param_names;
+
+    //statsd
+    String host;
+    Integer port = 8125;
+    //rate-limiting
+    Integer second;
+    Integer hour;
+    //file-log
+    String path;
 
     public List<String> getClaims_to_verify() {
         return claims_to_verify;
@@ -25,11 +35,11 @@ public class KongPluginConfig {
         this.claims_to_verify = claims_to_verify;
     }
 
-    public boolean isSecret_is_base64() {
+    public Boolean getSecret_is_base64() {
         return secret_is_base64;
     }
 
-    public void setSecret_is_base64(boolean secret_is_base64) {
+    public void setSecret_is_base64(Boolean secret_is_base64) {
         this.secret_is_base64 = secret_is_base64;
     }
 
@@ -57,11 +67,11 @@ public class KongPluginConfig {
         this.anonymous = anonymous;
     }
 
-    public boolean isRun_on_preflight() {
+    public Boolean getRun_on_preflight() {
         return run_on_preflight;
     }
 
-    public void setRun_on_preflight(boolean run_on_preflight) {
+    public void setRun_on_preflight(Boolean run_on_preflight) {
         this.run_on_preflight = run_on_preflight;
     }
 
@@ -71,5 +81,45 @@ public class KongPluginConfig {
 
     public void setUri_param_names(List<String> uri_param_names) {
         this.uri_param_names = uri_param_names;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    public Integer getSecond() {
+        return second;
+    }
+
+    public void setSecond(Integer second) {
+        this.second = second;
+    }
+
+    public Integer getHour() {
+        return hour;
+    }
+
+    public void setHour(Integer hour) {
+        this.hour = hour;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

@@ -19,7 +19,6 @@
                 </legend>
                 <thead>
                     <tr>
-                        <th>id</th>
                         <th>name</th>
                         <th>service_id</th>
                         <th>route_id</th>
@@ -31,8 +30,7 @@
                 </thead>
                 <tbody>
                     <tr th:each="plugin : ${plugins}">
-                        <th scope="row" th:text="${plugin.id}"></th>
-                        <td th:text="${plugin.name}"></td>
+                        <th scope="row" th:text="${plugin.name}"></th>
                         <td>
                             <a class="service_id" th:if="${plugin.service_id}" th:href="@{/plugins(service=${plugin.service_id})}" th:text="${plugin.service_id}"></a>
                         </td>
@@ -78,7 +76,16 @@
                 })
             });
 
-            $('.service_id').each(function(){
+            $('.route_id').each(function(){//replace route_id to serviceName
+                var this_route_id = $(this).text();
+                if(this_route_id != '' && null != this_route_id){
+                    var serviceResponse = $.ajax({url:"/routes/"+this_route_id+"/service/obj",async:false});
+                    var serviceJson = serviceResponse.responseText;
+                    var serviceObj = eval('(' + serviceJson + ')');
+                    $(this).text("service: " + serviceObj.name);
+                }
+            })
+            $('.service_id').each(function(){//replace service_id to serviceName
                 var this_service_id = $(this).text();
                 if(this_service_id != '' && null != this_service_id){
                     var serviceResponse = $.ajax({url:"/services/"+this_service_id+"/obj",async:false});

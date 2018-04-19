@@ -9,9 +9,10 @@ public class KongPlugin {
     String name;
     String service_id;
     String route_id;
-    boolean enabled;
+    Boolean enabled;
     KongPluginConfig config;
-    long created_at;
+    Long created_at;
+    String consumer_id;
 
     public String getId() {
         return id;
@@ -45,11 +46,11 @@ public class KongPlugin {
         this.route_id = route_id;
     }
 
-    public boolean isEnabled() {
+    public Boolean getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 
@@ -61,11 +62,19 @@ public class KongPlugin {
         this.config = config;
     }
 
-    public long getCreated_at() {
+    public Long getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(long created_at) {
+    public void setCreated_at(Long created_at) {
         this.created_at = created_at;
+    }
+
+    public String getConsumer_id() {
+        return consumer_id;
+    }
+
+    public void setConsumer_id(String consumer_id) {
+        this.consumer_id = consumer_id;
     }
 }

@@ -1,5 +1,6 @@
 package com.hongen.kong.web;
 
+import com.alibaba.fastjson.JSON;
 import com.hongen.kong.model.*;
 import com.hongen.kong.service.KongDashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,12 @@ public class KongDashboardController {
     @RequestMapping(value = "/services/{service_id}/obj",method = RequestMethod.GET)
     public KongService getServiceObj(@PathVariable String service_id){
         KongService service = kongDashboardService.getService(service_id,null);
+        return service;
+    }
+    @ResponseBody
+    @RequestMapping(value = "/routes/{route_id}/service/obj",method = RequestMethod.GET)
+    public KongService getServiceObjByRoute(@PathVariable String route_id){
+        KongService service = kongDashboardService.getService(null,route_id);
         return service;
     }
 
@@ -163,6 +170,8 @@ public class KongDashboardController {
         if(!StringUtils.isEmpty(plugin.getRoute_id())){
 
         }
+
+        map.addAttribute("pluginConfig", JSON.toJSONString(plugin.getConfig()));
         map.addAttribute("plugin",plugin);
         map.addAttribute("action","update");
         return "pluginForm";
@@ -172,10 +181,13 @@ public class KongDashboardController {
     public String addPlugin(ModelMap map,@RequestParam(value = "service_id",required = false) String service_id,
                                  @RequestParam(value = "route_id",required = false) String route_id){
         KongPlugin plugin = new KongPlugin();
-        plugin.setConfig(new KongPluginConfig());
+        final KongPluginConfig pluginConfig = new KongPluginConfig();
+        plugin.setConfig(pluginConfig);
         plugin.setService_id(service_id);
         plugin.setRoute_id(route_id);
+        final List<Consumer> consumers = kongDashboardService.getConsumers();
         map.addAttribute("action","add");
+        map.addAttribute("consumers",consumers);
         map.addAttribute("plugin",plugin);
         return "pluginForm";
     }

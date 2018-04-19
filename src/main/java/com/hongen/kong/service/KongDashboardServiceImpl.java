@@ -219,11 +219,31 @@ public class KongDashboardServiceImpl implements KongDashboardService {
             url = url + "/services/" + plugin.getService_id() + "/plugins";
         }else if(!StringUtils.isEmpty(plugin.getRoute_id())){
             url = url + "/routes/" + plugin.getRoute_id() + "/plugins";
+        }else{
+            url = url + "/plugins";
         }
         Map<String,Object> map = new HashMap<>();
         map.put("name",plugin.getName());
-        if(plugin.getConfig().getClaims_to_verify().size() > 0){
-            map.put("config",plugin.getConfig());
+        if(!StringUtils.isEmpty(plugin.getConsumer_id())){
+            map.put("consumer_id",plugin.getConsumer_id());
+        }
+        switch (plugin.getName()){
+            case "jwt":
+                if(plugin.getConfig().getClaims_to_verify().size() > 0){
+                    map.put("config",plugin.getConfig());
+                }
+                break;
+            case "statsd":
+                map.put("config.host",plugin.getConfig().getHost());
+                map.put("config.port",plugin.getConfig().getPort());
+                break;
+            case "rate-limiting":
+                map.put("config.second",plugin.getConfig().getSecond());
+                map.put("config.hour",plugin.getConfig().getHour());
+                break;
+            case "file-log":
+                map.put("config.path",plugin.getConfig().getPath());
+                break;
         }
         String json = JSON.toJSONString(map);
         logger.info("add plugin {}", json);
