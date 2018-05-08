@@ -1,7 +1,5 @@
 package com.hongen.kong.model;
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
-import com.sun.xml.internal.ws.runtime.config.ObjectFactory;
 
 import java.util.List;
 
