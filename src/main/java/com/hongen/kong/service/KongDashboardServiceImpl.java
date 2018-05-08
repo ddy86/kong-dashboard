@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,13 +66,16 @@ public class KongDashboardServiceImpl implements KongDashboardService {
     @Override
     public void addService(KongService service) {
         String url = kongServer + "/services";
-        Map<String,String> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
         map.put("name",service.getName());
         map.put("url",service.getUrl());
-        final HttpRequest form = HttpRequest.post(url).form(map);
-        if(form.created()){
-            logger.info("add service {} success!", service.getName());
+        try {
+            HttpClientUtil.post(HttpConfig.custom().url(url).map(map));
+        } catch (HttpProcessException e) {
+            logger.error("add service {} failed:{}!", service.getName(),e.getMessage());
+            e.printStackTrace();
         }
+        logger.info("add service {} success!", service.getName());
     }
 
     @Override
@@ -230,7 +234,7 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         switch (plugin.getName()){
             case "jwt":
                 if(plugin.getConfig().getClaims_to_verify().size() > 0){
-                    map.put("config",plugin.getConfig());
+                    map.put("config.claims_to_verify",plugin.getConfig().getClaims_to_verify());
                 }
                 break;
             case "statsd":
