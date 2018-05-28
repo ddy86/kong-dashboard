@@ -160,6 +160,7 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         map.put("paths",route.getPaths());
         map.put("protocols",route.getProtocols());
         map.put("methods",route.getMethods());
+        map.put("strip_path",route.isStrip_path());
         logger.info("update route {}", JSON.toJSONString(map));
 
         try {

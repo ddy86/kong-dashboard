@@ -44,6 +44,18 @@
                         <input type="text" class="form-control" id="route_methods" name="methods" th:value="${route.methods}" />
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="route_strip_path" class="col-sm-2 control-label">strip_path:</label>
+                    <div class="col-xs-4">
+                        <select class="form-control" id="route_strip_path" name="strip_path">
+                            <option value="true" th:if="${route.strip_path}" selected>true</option>
+                            <option value="false" th:if="${route.strip_path}">false</option>
+
+                            <option value="true" th:if="${not route.strip_path}">true</option>
+                            <option value="false" th:if="${not route.strip_path}" selected>false</option>
+                        </select>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
