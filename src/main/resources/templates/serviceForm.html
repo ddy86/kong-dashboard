@@ -16,7 +16,7 @@
                 <strong><label th:text="${action}"></label> service</strong>
             </legend>
 
-            <form action="/services/save" method="post" class="form-horizontal">
+            <form action="/kong/services/save" method="post" class="form-horizontal">
                 <input type="hidden" th:value="${service.id}" id="service_id" name="id"/>
                 <div class="form-group">
                     <label for="service_name" class="col-sm-2 control-label">name</label>

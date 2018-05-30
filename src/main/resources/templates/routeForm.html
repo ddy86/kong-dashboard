@@ -16,7 +16,7 @@
                 <strong><label th:text="${action}"></label> route : <label th:text="${service.url}"></label></strong>
             </legend>
 
-            <form action="/routes/save" method="post" class="form-horizontal">
+            <form action="/kong/routes/save" method="post" class="form-horizontal">
                 <input type="hidden" th:value="${route.id}" id="route_id" name="id"/>
                 <input type="hidden" th:value="${service.id}" id="service_id" name="service.id"/>
                 <div class="form-group">

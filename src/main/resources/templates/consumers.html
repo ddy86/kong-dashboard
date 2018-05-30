@@ -33,15 +33,15 @@
                         <td th:text="${consumer.custom_id}"></td>
                         <td th:text="${#dates.format(consumer.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
-                            <a class="btn btn-info" th:href="@{'/consumers/' + ${consumer.username} + '/jwt'}">jwt</a>
-                            <a class="btn btn-primary" th:href="@{'/consumers/' + ${consumer.id}}">update</a>
+                            <a class="btn btn-info" th:href="@{'/kong/consumers/' + ${consumer.username} + '/jwt'}">jwt</a>
+                            <a class="btn btn-primary" th:href="@{'/kong/consumers/' + ${consumer.id}}">update</a>
                             <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:value="${consumer.id}">delete</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <div><a class="btn btn-primary" href="/consumers/add" role="button">add consumer</a></div>
+            <div><a class="btn btn-primary" href="/kong/consumers/add" role="button">add consumer</a></div>
         </div>
         <script type="application/javascript">
             $(function(){
@@ -50,7 +50,7 @@
                         return;
                     }
                     var consumer_id = $(this).attr('value');
-                    var url = "/consumers/" + consumer_id + "/del";
+                    var url = "/kong/consumers/" + consumer_id + "/del";
                     $.ajax({
                         url: url,
                         async: false,

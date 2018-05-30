@@ -16,7 +16,7 @@
                 <strong><label th:text="${action}"></label> consumer</strong>
             </legend>
 
-            <form action="/consumers/save" method="post" class="form-horizontal">
+            <form action="/kong/consumers/save" method="post" class="form-horizontal">
                 <input type="hidden" th:value="${consumer.id}" id="consumer_id" name="id"/>
                 <div class="form-group">
                     <label for="consumer_username" class="col-sm-2 control-label">username:</label>

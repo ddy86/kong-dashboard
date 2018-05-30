@@ -46,16 +46,16 @@
                         <td th:text="${service.write_timeout}"></td>
                         <td th:text="${service.retries}"></td>
                         <td>
-                            <a class="btn btn-info" th:href="@{/routes(service=${service.id})}">routes</a>
-                            <a class="btn btn-info" th:href="@{/plugins(service=${service.id})}">plugins</a>
-                            <a class="btn btn-primary" th:href="@{'/services/'+${service.id}}">update</a>
+                            <a class="btn btn-info" th:href="@{/kong/routes(service=${service.id})}">routes</a>
+                            <a class="btn btn-info" th:href="@{/kong/plugins(service=${service.id})}">plugins</a>
+                            <a class="btn btn-primary" th:href="@{'/kong/services/'+${service.id}}">update</a>
                             <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:value="${service.id}">delete</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <div><a class="btn btn-primary" href="/services/add" role="button">add service</a></div>
+            <div><a class="btn btn-primary" href="/kong/services/add" role="button">add service</a></div>
         </div>
         <script type="application/javascript">
             $(function(){
@@ -64,7 +64,7 @@
                         return;
                     }
                     var service_id = $(this).attr('value');
-                    var url = "/services/"+service_id + "/del";
+                    var url = "/kong/services/"+service_id + "/del";
                     $.ajax({
                         url: url,
                         async: false,

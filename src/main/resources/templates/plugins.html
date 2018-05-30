@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
     <head>
         <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
         <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet"/>
@@ -15,7 +15,7 @@
 
             <table class="table table-hover table-condensed">
                 <legend>
-                    <strong><a th:if="${serviceName}" th:text="@{'/' + ${serviceName} + '/'}" th:href="@{/plugins(service=${serviceName})}"/><a th:if="${routeInfo}" th:text="@{${routeInfo} + '/'}"></a>plugins</strong>
+                    <strong><a th:if="${serviceName}" th:text="@{'/' + ${serviceName} + '/'}" th:href="@{/kong/plugins(service=${serviceName})}"/><a th:if="${routeInfo}" th:text="@{${routeInfo} + '/'}"></a>plugins</strong>
                 </legend>
                 <thead>
                     <tr>
@@ -32,10 +32,10 @@
                     <tr th:each="plugin : ${plugins}">
                         <th scope="row" th:text="${plugin.name}"></th>
                         <td>
-                            <a class="service_id" th:if="${plugin.service_id}" th:href="@{/plugins(service=${plugin.service_id})}" th:text="${plugin.service_id}"></a>
+                            <a class="service_id" th:if="${plugin.service_id}" th:href="@{/kong/plugins(service=${plugin.service_id})}" th:text="${plugin.service_id}"></a>
                         </td>
                         <td>
-                            <a class="route_id" th:if="${plugin.route_id}" th:href="@{/plugins(route_id=${plugin.route_id})}" th:text="${plugin.route_id}"></a>
+                            <a class="route_id" th:if="${plugin.route_id}" th:href="@{/kong/plugins(route_id=${plugin.route_id})}" th:text="${plugin.route_id}"></a>
                             <br>
                             <span th:if="${plugin.route_id}" th:id="${plugin.route_id}"></span>
                         </td>
@@ -43,16 +43,16 @@
                         <td th:text="${plugin.config.claims_to_verify}"></td>
                         <td th:text="${#dates.format(plugin.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
-                            <a class="btn btn-primary" th:href="@{'/plugins/' + ${plugin.id}}">update</a>
+                            <a class="btn btn-primary" th:href="@{'/kong/plugins/' + ${plugin.id}}">update</a>
                             <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:value="${plugin.id}">delete</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <div><a class="btn btn-primary" th:if="${route_id}" th:href="@{/plugins/add(route_id=${route_id})}" role="button">add plugin</a></div>
-            <div><a class="btn btn-primary" th:if="${service_id}" th:href="@{/plugins/add(service_id=${service_id})}" role="button">add plugin</a></div>
-            <div><a class="btn btn-primary" th:if="${#strings.isEmpty(service_id) or #strings.isEmpty(route_id)}" th:href="@{/plugins/add}" role="button">add plugin</a></div>
+            <div><a class="btn btn-primary" th:if="${route_id}" th:href="@{/kong/plugins/add(route_id=${route_id})}" role="button">add plugin</a></div>
+            <div><a class="btn btn-primary" th:if="${service_id}" th:href="@{/kong/plugins/add(service_id=${service_id})}" role="button">add plugin</a></div>
+            <div><a class="btn btn-primary" th:if="${#strings.isEmpty(service_id) or #strings.isEmpty(route_id)}" th:href="@{/kong/plugins/add}" role="button">add plugin</a></div>
         </div>
     <script type="application/javascript">
         $(function(){
@@ -62,7 +62,7 @@
                     return;
                 }
                 var plugin_id = $(this).attr('value');
-                var url = "/plugins/"+plugin_id + "/del";
+                var url = "/kong/plugins/"+plugin_id + "/del";
                 $.ajax({
                     url: url,
                     async: false,
@@ -80,16 +80,19 @@
             $('.route_id').each(function(){//replace route_id to serviceName
                 var this_route_id = $(this).text();
                 if(this_route_id != '' && null != this_route_id){
-                    var serviceResponse = $.ajax({url:"/routes/"+this_route_id+"/service/obj",async:false});
+                    var serviceResponse = $.ajax({url:"/kong/routes/"+this_route_id+"/service/obj", async:false});
                     var serviceJson = serviceResponse.responseText;
                     var serviceObj = eval('(' + serviceJson + ')');
-                    $(this).text("service: " + serviceObj.name);
+                    var routeResponse = $.ajax({url: "/kong/routes/" + this_route_id + "/obj", async: false});
+                    var routeJson = routeResponse.responseText;
+                    var routeObj = eval('(' + routeJson + ')');
+                    $(this).text(serviceObj.name + ":" + routeObj.paths);
                 }
             })
             $('.service_id').each(function(){//replace service_id to serviceName
                 var this_service_id = $(this).text();
                 if(this_service_id != '' && null != this_service_id){
-                    var serviceResponse = $.ajax({url:"/services/"+this_service_id+"/obj",async:false});
+                    var serviceResponse = $.ajax({url:"/kong/services/"+this_service_id+"/obj",async:false});
                     var serviceJson = serviceResponse.responseText;
                     var serviceObj = eval('(' + serviceJson + ')');
                     $(this).text(serviceObj.name);

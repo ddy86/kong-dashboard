@@ -15,7 +15,7 @@
 
             <table class="table table-hover table-condensed">
                 <legend>
-                    <strong>/consumers/<a th:text="${consumer.username}"></a>/Jwts</strong>
+                    <strong>/kong/consumers/<a th:text="${consumer.username}"></a>/Jwts</strong>
                 </legend>
                 <thead>
                     <tr>
@@ -49,7 +49,7 @@
             $(function(){
                 $('.btn-add').click(function(){
                     var consumerId = $(this).attr('consumerId');
-                    var url = "/consumers/" + consumerId + "/jwt";
+                    var url = "/kong/consumers/" + consumerId + "/jwt";
                     $.ajax({
                         url: url,
                         async: false,
@@ -69,7 +69,7 @@
                     }
                     var consumerId = $(this).attr('consumerId');
                     var jwt_id = $(this).attr('jwt');
-                    var url = "/consumers/" + consumerId + "/jwt/" + jwt_id;
+                    var url = "/kong/consumers/" + consumerId + "/jwt/" + jwt_id;
                     $.ajax({
                         url: url,
                         async: false,

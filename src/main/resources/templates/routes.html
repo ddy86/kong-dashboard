@@ -37,7 +37,7 @@
                 <tbody>
                     <tr th:each="route : ${routes}">
                         <th>
-                            <a class="service_id" th:text="${route.service.id}" th:href="@{/routes(service=${route.service.id})}"></a>
+                            <a class="service_id" th:text="${route.service.id}" th:href="@{/kong/routes(service=${route.service.id})}"></a>
                         </th>
                         <td th:text="${route.hosts}"></td>
                         <td th:text="${route.paths}"></td>
@@ -49,15 +49,15 @@
                         <td th:text="${#dates.format(route.created_at * 1000, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td th:text="${#dates.format(route.updated_at * 1000, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
-                            <a class="btn btn-info" th:href="@{/plugins(route_id=${route.id})}">plugins</a>
-                            <a class="btn btn-primary" th:href="@{'/routes/'+${route.id}}">update</a>
+                            <a class="btn btn-info" th:href="@{/kong/plugins(route_id=${route.id})}">plugins</a>
+                            <a class="btn btn-primary" th:href="@{'/kong/routes/'+${route.id}}">update</a>
                             <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:value="${route.id}">delete</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <div th:if="${service}"><a class="btn btn-primary" th:href="@{'/routes/' + ${service.id} + '/add'}" role="button">add route</a></div>
+            <div th:if="${service}"><a class="btn btn-primary" th:href="@{'/kong/routes/' + ${service.id} + '/add'}" role="button">add route</a></div>
         </div>
         <script type="application/javascript">
             $(function(){
@@ -66,7 +66,7 @@
                         return;
                     }
                     var route_id = $(this).attr('value');
-                    var url = "/routes/"+route_id + "/del";
+                    var url = "/kong/routes/"+route_id + "/del";
                     $.ajax({
                         url: url,
                         async: false,
@@ -84,7 +84,7 @@
                 $('.service_id').each(function(){
                     var this_service_id = $(this).text();
                     if(this_service_id != '' && null != this_service_id){
-                        var serviceResponse = $.ajax({url:"/services/"+this_service_id+"/obj",async:false});
+                        var serviceResponse = $.ajax({url:"/kong/services/"+this_service_id+"/obj",async:false});
                         var serviceJson = serviceResponse.responseText;
                         var serviceObj = eval('(' + serviceJson + ')');
                         $(this).text(serviceObj.name);
