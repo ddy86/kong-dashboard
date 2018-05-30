@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping
+@RequestMapping(value = "/kong")
 public class KongDashboardController {
 
     @Autowired
@@ -79,7 +79,7 @@ public class KongDashboardController {
             kongDashboardService.updateService(service);
         }
 
-        return "redirect:/services/";
+        return "redirect:/kong/services/";
     }
 
     @ResponseBody
@@ -98,6 +98,14 @@ public class KongDashboardController {
         map.addAttribute("action", "update");
         return "routeForm";
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/routes/{route_id}/obj",method = RequestMethod.GET)
+    public KongRoute getRouteObj(@PathVariable String route_id){
+        KongRoute route = kongDashboardService.getRoute(route_id);
+        return route;
+    }
+
 
     @RequestMapping(value = "/routes/{service_id}/add",method = RequestMethod.GET)
     public String addRoute(ModelMap map, @PathVariable String service_id){
@@ -136,7 +144,7 @@ public class KongDashboardController {
             kongDashboardService.updateRoute(route);
         }
 
-        return "redirect:/routes?service="+route.getService().getId();
+        return "redirect:/kong/routes?service="+route.getService().getId();
     }
 
 
@@ -200,11 +208,11 @@ public class KongDashboardController {
             kongDashboardService.updatePlugin(plugin);
         }
         if(!StringUtils.isEmpty(plugin.getService_id())){
-            return "redirect:/plugins?service=" + plugin.getService_id();
+            return "redirect:/kong/plugins?service=" + plugin.getService_id();
         }else if(!StringUtils.isEmpty(plugin.getRoute_id())){
-            return "redirect:/plugins?route_id=" + plugin.getRoute_id();
+            return "redirect:/kong/plugins?route_id=" + plugin.getRoute_id();
         }else{
-            return "redirect:/plugins";
+            return "redirect:/kong/plugins";
         }
     }
 
@@ -245,7 +253,7 @@ public class KongDashboardController {
         }else{
             kongDashboardService.updateConsumer(consumer);
         }
-        return "redirect:/consumers/";
+        return "redirect:/kong/consumers/";
     }
 
     @ResponseBody
