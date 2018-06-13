@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class DefaultController {
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String getServiceList(){
+    public String index(){
         return "index";
     }
 
