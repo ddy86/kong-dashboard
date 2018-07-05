@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>kong-dashboard</name>
-    <description>第二章快速入门案例</description>
+    <description>kong-dashboard by ddy</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
