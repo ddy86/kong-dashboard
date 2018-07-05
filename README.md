@@ -1,5 +1,5 @@
 # kong-dashboard
-使用springboot+thymeleaf开发；
+使用springBoot + thymeleaf开发；
 
 废弃API对象，使用Service+Route，只兼容kong0.13+；
 
