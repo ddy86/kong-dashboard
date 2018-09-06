@@ -31,11 +31,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 
-    //create two users admin and user
+    //create admin user
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+        String adminPassord = System.getProperty("ADMIN_PASSWORD");
         auth.inMemoryAuthentication()
-                .withUser("admin").password("123dsa789").roles("ADMIN");
+                .withUser("admin").password(adminPassord).roles("ADMIN");
     }
 
 }
