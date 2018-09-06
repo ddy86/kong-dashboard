@@ -29,7 +29,7 @@ import java.util.Map;
 public class KongDashboardServiceImpl implements KongDashboardService {
 
     protected static final Logger logger = LoggerFactory.getLogger(KongDashboardService.class);
-    @Value("${kong.server.url}")
+    @Value("${KONG_API_URL}")
     String kongServer;
 
     @Override
