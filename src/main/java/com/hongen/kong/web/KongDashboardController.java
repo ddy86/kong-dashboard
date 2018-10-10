@@ -26,6 +26,7 @@ public class KongDashboardController {
     public String getServiceList(ModelMap map){
         final List<KongService> services = kongDashboardService.getServices();
         map.addAttribute("services", services);
+        map.addAttribute("nav_service", true);
         return "services";
     }
 
@@ -34,6 +35,7 @@ public class KongDashboardController {
         KongService service = new KongService();
         map.addAttribute("service",service);
         map.addAttribute("action","add");
+        map.addAttribute("nav_service", true);
         return "serviceForm";
     }
 
@@ -56,6 +58,7 @@ public class KongDashboardController {
         service = setServiceUrl(service);
         map.addAttribute("service",service);
         map.addAttribute("action","update");
+        map.addAttribute("nav_service", true);
         return "serviceForm";
     }
 
@@ -96,6 +99,7 @@ public class KongDashboardController {
         service = setServiceUrl(service);
         map.addAttribute("service",service);
         map.addAttribute("action", "update");
+        map.addAttribute("nav_route", true);
         return "routeForm";
     }
 
@@ -115,6 +119,7 @@ public class KongDashboardController {
         service = setServiceUrl(service);
         map.addAttribute("service",service);
         map.addAttribute("action", "add");
+        map.addAttribute("nav_route", true);
         return "routeForm";
     }
 
@@ -133,6 +138,7 @@ public class KongDashboardController {
             map.addAttribute("service", kongService);
         }
         map.addAttribute("routes", routes);
+        map.addAttribute("nav_route", true);
         return "routes";
     }
 
@@ -166,6 +172,7 @@ public class KongDashboardController {
             map.addAttribute("routeInfo",routeInfo);
         }
         map.addAttribute("plugins", plugins);
+        map.addAttribute("nav_plugin", true);
         return "plugins";
     }
 
@@ -182,6 +189,7 @@ public class KongDashboardController {
         map.addAttribute("pluginConfig", JSON.toJSONString(plugin.getConfig()));
         map.addAttribute("plugin",plugin);
         map.addAttribute("action","update");
+        map.addAttribute("nav_plugin", true);
         return "pluginForm";
     }
 
@@ -197,6 +205,7 @@ public class KongDashboardController {
         map.addAttribute("action","add");
         map.addAttribute("consumers",consumers);
         map.addAttribute("plugin",plugin);
+        map.addAttribute("nav_plugin", true);
         return "pluginForm";
     }
 
@@ -227,6 +236,7 @@ public class KongDashboardController {
     public String getConsumersList(ModelMap map){
         final List<Consumer> consumers = kongDashboardService.getConsumers();
         map.addAttribute("consumers", consumers);
+        map.addAttribute("nav_consumer", true);
         return "consumers";
     }
 
@@ -235,6 +245,7 @@ public class KongDashboardController {
         Consumer consumer = new Consumer();
         map.addAttribute("consumer",consumer);
         map.addAttribute("action","add");
+        map.addAttribute("nav_consumer", true);
         return "consumerForm";
     }
 
@@ -243,6 +254,7 @@ public class KongDashboardController {
         final Consumer consumer = kongDashboardService.getConsumer(usernameOrId);
         map.addAttribute("consumer", consumer);
         map.addAttribute("action", "update");
+        map.addAttribute("nav_consumer", true);
         return "consumerForm";
     }
 
@@ -268,6 +280,7 @@ public class KongDashboardController {
         final Consumer consumer = kongDashboardService.getConsumer(username);
         map.addAttribute("consumer", consumer);
         map.addAttribute("jwts", jwts);
+        map.addAttribute("nav_consumer", true);
         return "consumerJwts";
     }
 

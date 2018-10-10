@@ -17,10 +17,14 @@
         </div>
         <div>
             <ul class="nav navbar-nav">
-                <li><a href="/kong/services">services</a></li>
-                <li><a href="/kong/routes">routes</a></li>
-                <li><a href="/kong/plugins">plugins</a></li>
-                <li><a href="/kong/consumers">consumers</a></li>
+                <li th:if="${nav_service ne null and nav_service}" class="active"><a href="/kong/services">services</a></li>
+                <li th:if="${nav_service eq null}"><a href="/kong/services">services</a></li>
+                <li th:if="${nav_route ne null and nav_route}" class="active"><a href="/kong/routes">routes</a></li>
+                <li th:if="${nav_route eq null}"><a href="/kong/routes">routes</a></li>
+                <li th:if="${nav_plugin ne null and nav_plugin}" class="active"><a href="/kong/plugins">plugins</a></li>
+                <li th:if="${nav_plugin eq null}"><a href="/kong/plugins">plugins</a></li>
+                <li th:if="${nav_consumer ne null and nav_consumer}" class="active"><a href="/kong/consumers">consumers</a></li>
+                <li th:if="${nav_consumer eq null}"><a href="/kong/consumers">consumers</a></li>
                 <li><a href="/logout">logout</a></li>
                 <!--<li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
