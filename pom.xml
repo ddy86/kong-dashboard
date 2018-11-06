@@ -5,7 +5,7 @@
 
     <groupId>spring.boot.core</groupId>
     <artifactId>kong-dashboard</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>kong-dashboard</name>
