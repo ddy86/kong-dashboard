@@ -1,0 +1,12 @@
+image: harbor.corp.hongen.com/library/openjdk:8
+
+stages:
+  - build
+
+build:
+  stage: build
+  script: ./mvnw package
+  artifacts:
+    paths:
+      - target/demo-v1.1.2.jar
+
