@@ -2,11 +2,18 @@ image: harbor.corp.hongen.com/library/openjdk:8
 
 stages:
   - build
+  - package
 
 build:
   stage: build
   script: ./mvnw package
   artifacts:
     paths:
-      - target/demo-v1.1.2.jar
+      - target/kong-dashboard-v1.1.2.jar
 
+docker-build:
+  stage: package
+  script:
+  - docker build -t harbor.corp.hongen.com/hongen/kong-dashborad:v1.1.2 .
+  - docker login -u admin -p $HARBOR_PASSWORD harbor.corp.hongen.com
+  - docker push harbor.corp.hongen.com/hongen/kong-dashborad:v1.1.2
