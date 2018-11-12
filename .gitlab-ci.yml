@@ -1,5 +1,6 @@
 stages:
   - build
+  - package
 
 build:
   image: harbor.corp.hongen.com/library/maven:3-jdk-8
@@ -10,3 +11,11 @@ build:
   artifacts:
     paths:
       - target/*.jar
+
+docker-build:
+  stage: package
+  script:
+  - docker build -t harbor.corp.hongen.com/hongen/kong-dashborad:v1.1.2 .
+  - docker login -u admin -p $HARBOR_PASSWORD harbor.corp.hongen.com
+  - docker push harbor.corp.hongen.com/hongen/kong-dashborad:v1.1.2
+      
