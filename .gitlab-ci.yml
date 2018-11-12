@@ -1,10 +1,10 @@
 stages:
-  - build
   - package
+  - build
 
 build:
   image: harbor.corp.hongen.com/library/maven:3-jdk-8
-  stage: build
+  stage: package
   variables:
     MAVEN_OPTS: "-Dmaven.repo.local=/cache/maven.repository"
   script: "mvn package -Dmaven.test.skip=true -B"
@@ -12,14 +12,9 @@ build:
     paths:
       - target/*.jar
 
-before_script:
-  - docker info
 
 docker-build:
-  stage: package
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
+  stage: build
   script:
   - ls -al ./
   - ls target
