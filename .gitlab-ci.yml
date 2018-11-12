@@ -2,11 +2,12 @@ image: harbor.corp.hongen.com/library/openjdk:8
 
 stages:
   - build
-  - package
+#  - package
 
 build:
   image: harbor.corp.hongen.com/library/maven:3-jdk-8
-  stage: build
+  variables:
+    MAVEN_OPTS: -Dmaven.repo.local=/cache/maven.repository
   script: "mvn package -B"
   artifacts:
     paths:
