@@ -3,6 +3,6 @@ logging:
   #配置日志文件路径
   path: /Users/ddy/log
   level:
-    com.hongen: debug #不同目录下的日志可配置不同级别
-    org.springfromework.web: info
+    com.hongen: ${KONG_LOG_LEVEL} #不同目录下的日志可配置不同级别
+    org.springfromework.web: ${ROOT_LOG_LEVEL}
     org.hibernate: error
