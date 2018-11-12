@@ -6,7 +6,7 @@ build:
   stage: build
   variables:
     MAVEN_OPTS: "-Dmaven.repo.local=/cache/maven.repository"
-  script: "mvn package -B"
+  script: "mvn package -Dmaven.test.skip=true -B"
   artifacts:
     paths:
       - target/*.jar
