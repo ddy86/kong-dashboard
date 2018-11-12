@@ -15,7 +15,9 @@ build:
 docker-build:
   stage: package
   script:
-  - ls -al
+  - ls -al ./
+  - ls target
+  - ls /
   - docker build -t harbor.corp.hongen.com/hongen/kong-dashborad:v1.1.2 .
   - docker login -u admin -p $HARBOR_PASSWORD harbor.corp.hongen.com
   - docker push harbor.corp.hongen.com/hongen/kong-dashborad:v1.1.2
