@@ -3,8 +3,13 @@ stages:
   - build
 
 build:
-  image: harbor.corp.hongen.com/library/maven:3-jdk-8
   stage: package
+  only:
+    changes:
+      - Dockerfile
+      - src/*
+      - pom.xml
+  image: harbor.corp.hongen.com/library/maven:3-jdk-8
   variables:
     MAVEN_OPTS: "-Dmaven.repo.local=/cache/maven.repository"
   script: "mvn package -Dmaven.test.skip=true -B"
@@ -15,12 +20,18 @@ build:
 
 docker-build:
   stage: build
+  only:
+    changes:
+      - Dockerfile
+      - src/*
+      - pom.xml
   script:
+  - export version=v1.1.2
   - ls -al ./
   - ls target
   - ls /
-  - docker build -t harbor.corp.hongen.com/hongen/kong-dashborad:v1.1.2 .
+  - docker build -t harbor.corp.hongen.com/hongen/kong-dashborad:$version .
   - docker login -uadmin -p$HARBOR_PASSWORD harbor.corp.hongen.com
   - docker images
-  - docker push harbor.corp.hongen.com/hongen/kong-dashborad:v1.1.2
+  - docker push harbor.corp.hongen.com/hongen/kong-dashborad:$version
       
