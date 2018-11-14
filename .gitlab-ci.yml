@@ -26,7 +26,7 @@ docker-build:
       - src/main/**/*
       - pom.xml
   script:
-  - export version=v1.1.2
+  - export version=v1.1.3
   - ls -al ./
   - ls target
   - ls /
