@@ -23,7 +23,7 @@ docker-build:
   only:
     changes:
       - Dockerfile
-      - src/*
+      - src/main/**/*
       - pom.xml
   script:
   - export version=v1.1.2
