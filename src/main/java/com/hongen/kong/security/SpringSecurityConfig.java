@@ -1,6 +1,8 @@
 package com.hongen.kong.security;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,6 +12,8 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static Logger logger = LoggerFactory.getLogger(SpringSecurityConfig.class);
 
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
@@ -34,9 +38,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     //create admin user
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        String adminPassord = System.getProperty("ADMIN_PASSWORD");
-        auth.inMemoryAuthentication()
-                .withUser("admin").password(adminPassord).roles("ADMIN");
+        String adminPassword = System.getProperty("ADMIN_PASSWORD");
+        logger.debug("start up with config password: " + adminPassword);
+
+        auth.inMemoryAuthentication().withUser("admin").password(adminPassword).roles("ADMIN");
     }
 
 }
