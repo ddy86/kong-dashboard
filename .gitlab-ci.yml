@@ -7,7 +7,7 @@ build:
   only:
     changes:
       - Dockerfile
-      - src/*
+      - src/main/**/*
       - pom.xml
   image: harbor.corp.hongen.com/library/maven:3-jdk-8
   variables:
