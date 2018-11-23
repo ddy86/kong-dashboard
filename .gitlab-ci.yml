@@ -28,7 +28,7 @@ docker-build:
   except:
   - master
   script:
-  - export version=v1.1.3
+  - export version=v1.1.4
   - ls -al ./
   - ls target
   - ls /
