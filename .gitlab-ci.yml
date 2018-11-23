@@ -34,7 +34,7 @@ docker-build:
   - ls /
   - echo "docker passwd is $HARBOR_PASSWORD"
   - docker build -t harbor.corp.hongen.com/hongen/kong-dashborad:$version .
-#  - docker login -uadmin -p$HARBOR_PASSWORD harbor.corp.hongen.com
-#  - docker images
+  - docker login -uadmin -p$HARBOR_PASSWORD harbor.corp.hongen.com
+  - docker images
   - docker push harbor.corp.hongen.com/hongen/kong-dashborad:$version
       
