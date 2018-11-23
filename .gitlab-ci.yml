@@ -28,13 +28,15 @@ docker-build:
   except:
   - master
   script:
-  - export version=v1.1.4
+  - export version=$CI_COMMIT_REF_NAME
   - ls -al ./
   - ls target
   - ls /
   - echo "docker passwd is $HARBOR_PASSWORD"
   - docker build -t harbor.corp.hongen.com/hongen/kong-dashborad:$version .
+  - test -z "$(docker images | grep kong-dashborad | grep $version)" && exit -1
   - docker login -uadmin -p$HARBOR_PASSWORD harbor.corp.hongen.com
   - docker images
   - docker push harbor.corp.hongen.com/hongen/kong-dashborad:$version
+  - docker run --rm harbor.corp.hongen.com/hongen/k8s-adapter:1.0.1 python3 update_deployment.py kong-dashborad $version
       
