@@ -17,10 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ddy on 2018/4/4.
@@ -42,7 +39,9 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         String servicesData = result.body();
         final KongServicesVo kongServicesVo = JSON.parseObject(servicesData, new TypeReference<KongServicesVo>() {
         });
-        return kongServicesVo.getData();
+        List<KongService> services = kongServicesVo.getData();
+        services.sort(Comparator.comparing(KongService::getName));
+        return services;
     }
 
     @Override
