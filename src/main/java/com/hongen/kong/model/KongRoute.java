@@ -18,6 +18,12 @@ public class KongRoute {
     List<String> protocols;
     String id;
 
+    public KongRoute(){}
+
+    public KongRoute(String route_id) {
+        id = route_id;
+    }
+
     public long getCreated_at() {
         return created_at;
     }

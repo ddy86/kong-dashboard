@@ -1,5 +1,7 @@
 package com.hongen.kong.model;
 
+import java.util.List;
+
 /**
  * Created by ddy on 2018/4/8.
  */
@@ -7,12 +9,15 @@ public class KongPlugin {
 
     String id;
     String name;
-    String service_id;
-    String route_id;
+    KongService service;
+    KongRoute route;
     Boolean enabled;
     KongPluginConfig config;
     Long created_at;
-    String consumer_id;
+    Consumer consumer;
+    String run_on;
+    List<String> protocols;
+    List<String> tags;
 
     public String getId() {
         return id;
@@ -30,20 +35,52 @@ public class KongPlugin {
         this.name = name;
     }
 
-    public String getService_id() {
-        return service_id;
+    public KongService getService() {
+        return service;
     }
 
-    public void setService_id(String service_id) {
-        this.service_id = service_id;
+    public void setService(KongService service) {
+        this.service = service;
     }
 
-    public String getRoute_id() {
-        return route_id;
+    public KongRoute getRoute() {
+        return route;
     }
 
-    public void setRoute_id(String route_id) {
-        this.route_id = route_id;
+    public void setRoute(KongRoute route) {
+        this.route = route;
+    }
+
+    public Consumer getConsumer() {
+        return consumer;
+    }
+
+    public void setConsumer(Consumer consumer) {
+        this.consumer = consumer;
+    }
+
+    public String getRun_on() {
+        return run_on;
+    }
+
+    public void setRun_on(String run_on) {
+        this.run_on = run_on;
+    }
+
+    public List<String> getProtocols() {
+        return protocols;
+    }
+
+    public void setProtocols(List<String> protocols) {
+        this.protocols = protocols;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
     public Boolean getEnabled() {
@@ -70,11 +107,5 @@ public class KongPlugin {
         this.created_at = created_at;
     }
 
-    public String getConsumer_id() {
-        return consumer_id;
-    }
 
-    public void setConsumer_id(String consumer_id) {
-        this.consumer_id = consumer_id;
-    }
 }

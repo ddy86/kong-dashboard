@@ -8,7 +8,7 @@ public class ConsumerJwt {
     String id;
     String key;
     String secret;
-    String consumer_id;
+    Consumer consumer;
     String algorithm;
     long created_at;
 
@@ -36,12 +36,12 @@ public class ConsumerJwt {
         this.secret = secret;
     }
 
-    public String getConsumer_id() {
-        return consumer_id;
+    public Consumer getConsumer() {
+        return consumer;
     }
 
-    public void setConsumer_id(String consumer_id) {
-        this.consumer_id = consumer_id;
+    public void setConsumer(Consumer consumer) {
+        this.consumer = consumer;
     }
 
     public String getAlgorithm() {

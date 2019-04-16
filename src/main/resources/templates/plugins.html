@@ -16,8 +16,8 @@
                 <thead>
                     <tr>
                         <th>name</th>
-                        <th>service_id</th>
-                        <th>route_id</th>
+                        <th>service.id</th>
+                        <th>route.id</th>
                         <th>enabled</th>
                         <th>config.claims_to_verify</th>
                         <th>created_at</th>
@@ -28,16 +28,16 @@
                     <tr th:each="plugin : ${plugins}">
                         <th scope="row" th:text="${plugin.name}"></th>
                         <td>
-                            <a class="service_id" th:if="${plugin.service_id}" th:href="@{/kong/plugins(service=${plugin.service_id})}" th:text="${plugin.service_id}"></a>
+                            <a class="service_id" th:if="${plugin.service}" th:href="@{/kong/plugins(service=${plugin.service.id})}" th:text="${plugin.service.id}"></a>
                         </td>
                         <td>
-                            <a class="route_id" th:if="${plugin.route_id}" th:href="@{/kong/plugins(route_id=${plugin.route_id})}" th:text="${plugin.route_id}"></a>
+                            <a class="route_id" th:if="${plugin.route}" th:href="@{/kong/plugins(route_id=${plugin.route.id})}" th:text="${plugin.route.id}"></a>
                             <br>
-                            <span th:if="${plugin.route_id}" th:id="${plugin.route_id}"></span>
+                            <span th:if="${plugin.route}" th:id="${plugin.route.id}"></span>
                         </td>
                         <td th:text="${plugin.enabled}"></td>
                         <td th:text="${plugin.config.claims_to_verify}"></td>
-                        <td th:text="${#dates.format(plugin.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${#dates.format(plugin.created_at * 1000, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
                             <a class="btn btn-primary" th:href="@{'/kong/plugins/' + ${plugin.id}}">update</a>
                             <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:value="${plugin.id}">delete</a>
@@ -46,9 +46,9 @@
                 </tbody>
             </table>
 
-            <div><a class="btn btn-primary" th:if="${route_id}" th:href="@{/kong/plugins/add(route_id=${route_id})}" role="button">add plugin</a></div>
-            <div><a class="btn btn-primary" th:if="${service_id}" th:href="@{/kong/plugins/add(service_id=${service_id})}" role="button">add plugin</a></div>
-            <div><a class="btn btn-primary" th:if="${#strings.isEmpty(service_id) and #strings.isEmpty(route_id)}" th:href="@{/kong/plugins/add}" role="button">add plugin</a></div>
+            <div><a class="btn btn-primary" th:if="${route}" th:href="@{/kong/plugins/add(route.id=${route.id})}" role="button">add plugin</a></div>
+            <div><a class="btn btn-primary" th:if="${service}" th:href="@{/kong/plugins/add(service.id=${service.id})}" role="button">add plugin</a></div>
+            <div><a class="btn btn-primary" th:if="${#strings.isEmpty(service) and #strings.isEmpty(route)}" th:href="@{/kong/plugins/add}" role="button">add plugin</a></div>
         </div>
     <script type="application/javascript">
         $(function(){

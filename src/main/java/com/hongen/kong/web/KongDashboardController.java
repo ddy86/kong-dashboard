@@ -179,10 +179,10 @@ public class KongDashboardController {
     @RequestMapping(value = "/plugins/{plugin_id}",method = RequestMethod.GET)
     public String updatePlugin(ModelMap map,@PathVariable(value = "plugin_id",required = true) String plugin_id){
         KongPlugin plugin = kongDashboardService.getPlugin(plugin_id);
-        if(!StringUtils.isEmpty(plugin.getService_id())){
+        if(!StringUtils.isEmpty(plugin.getService().getId())){
 
         }
-        if(!StringUtils.isEmpty(plugin.getRoute_id())){
+        if(!StringUtils.isEmpty(plugin.getRoute().getId())){
 
         }
 
@@ -199,8 +199,8 @@ public class KongDashboardController {
         KongPlugin plugin = new KongPlugin();
         final KongPluginConfig pluginConfig = new KongPluginConfig();
         plugin.setConfig(pluginConfig);
-        plugin.setService_id(service_id);
-        plugin.setRoute_id(route_id);
+        plugin.setService(new KongService(service_id));
+        plugin.setRoute(new KongRoute(route_id));
         final List<Consumer> consumers = kongDashboardService.getConsumers();
         map.addAttribute("action","add");
         map.addAttribute("consumers",consumers);
@@ -216,10 +216,10 @@ public class KongDashboardController {
         }else{
             kongDashboardService.updatePlugin(plugin);
         }
-        if(!StringUtils.isEmpty(plugin.getService_id())){
-            return "redirect:/kong/plugins?service=" + plugin.getService_id();
-        }else if(!StringUtils.isEmpty(plugin.getRoute_id())){
-            return "redirect:/kong/plugins?route_id=" + plugin.getRoute_id();
+        if(!StringUtils.isEmpty(plugin.getService().getId())){
+            return "redirect:/kong/plugins?service=" + plugin.getService().getId();
+        }else if(!StringUtils.isEmpty(plugin.getRoute().getId())){
+            return "redirect:/kong/plugins?route_id=" + plugin.getRoute().getId();
         }else{
             return "redirect:/kong/plugins";
         }

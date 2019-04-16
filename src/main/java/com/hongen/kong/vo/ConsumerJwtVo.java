@@ -8,15 +8,15 @@ import java.util.List;
  * Created by ddy on 2018/4/10.
  */
 public class ConsumerJwtVo {
-    int total;
+    String next;
     List<ConsumerJwt> data;
 
-    public int getTotal() {
-        return total;
+    public String getNext() {
+        return next;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setNext(String next) {
+        this.next = next;
     }
 
     public List<ConsumerJwt> getData() {

@@ -27,11 +27,11 @@
                 <tbody>
                     <tr th:each="jwt : ${jwts}">
                         <th scope="row" th:text="${jwt.id}"></th>
-                        <td th:text="${jwt.consumer_id}"></td>
+                        <td th:text="${consumer.id}"></td>
                         <td th:text="${jwt.key}"></td>
                         <td th:text="${jwt.secret}"></td>
                         <td th:text="${jwt.algorithm}"></td>
-                        <td th:text="${#dates.format(jwt.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${#dates.format(jwt.created_at * 1000, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
                             <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:consumerId="${consumer.id}" th:jwt="${jwt.id}">delete</a>
                         </td>

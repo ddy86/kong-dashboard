@@ -20,6 +20,12 @@ public class KongService {
 
     String url;
 
+    public KongService(){}
+
+    public KongService(String service_id){
+        id = service_id;
+    }
+
     public String getUrl() {
         return url;
     }

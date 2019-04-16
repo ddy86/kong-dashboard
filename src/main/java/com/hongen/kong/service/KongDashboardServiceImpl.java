@@ -220,17 +220,17 @@ public class KongDashboardServiceImpl implements KongDashboardService {
     @Override
     public void addPlugin(KongPlugin plugin) {
         String url = kongServer;
-        if(!StringUtils.isEmpty(plugin.getService_id())){
-            url = url + "/services/" + plugin.getService_id() + "/plugins";
-        }else if(!StringUtils.isEmpty(plugin.getRoute_id())){
-            url = url + "/routes/" + plugin.getRoute_id() + "/plugins";
+        if(!StringUtils.isEmpty(plugin.getService().getId())){
+            url = url + "/services/" + plugin.getService().getId() + "/plugins";
+        }else if(!StringUtils.isEmpty(plugin.getRoute().getId())){
+            url = url + "/routes/" + plugin.getRoute().getId() + "/plugins";
         }else{
             url = url + "/plugins";
         }
         Map<String,Object> map = new HashMap<>();
         map.put("name",plugin.getName());
-        if(!StringUtils.isEmpty(plugin.getConsumer_id())){
-            map.put("consumer_id",plugin.getConsumer_id());
+        if(!StringUtils.isEmpty(plugin.getConsumer().getId())){
+            map.put("consumer_id",plugin.getConsumer().getId());
         }
         switch (plugin.getName()){
             case "jwt":
