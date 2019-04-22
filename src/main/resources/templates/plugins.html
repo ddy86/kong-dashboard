@@ -46,9 +46,9 @@
                 </tbody>
             </table>
 
-            <div><a class="btn btn-primary" th:if="${route}" th:href="@{/kong/plugins/add(route.id=${route.id})}" role="button">add plugin</a></div>
-            <div><a class="btn btn-primary" th:if="${service}" th:href="@{/kong/plugins/add(service.id=${service.id})}" role="button">add plugin</a></div>
-            <div><a class="btn btn-primary" th:if="${#strings.isEmpty(service) and #strings.isEmpty(route)}" th:href="@{/kong/plugins/add}" role="button">add plugin</a></div>
+            <div><a class="btn btn-primary" th:if="${route_id}" th:href="@{/kong/plugins/add(route_id=${route_id})}" role="button">add plugin</a></div>
+            <div><a class="btn btn-primary" th:if="${service_id}" th:href="@{/kong/plugins/add(service_id=${service_id})}" role="button">add plugin</a></div>
+            <div><a class="btn btn-primary" th:if="${#strings.isEmpty(service_id) and #strings.isEmpty(route_id)}" th:href="@{/kong/plugins/add}" role="button">add plugin</a></div>
         </div>
     <script type="application/javascript">
         $(function(){

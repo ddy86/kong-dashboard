@@ -10,15 +10,17 @@
         <div class="contentDiv">
             <legend>
                 <strong><label th:text="${action}"></label> plugin,
-                    <label th:text="'route: ' + ${plugin.route_id}" th:if="${plugin.route_id}"></label>
-                    <label th:text="'service: ' + ${plugin.service_id}" th:if="${plugin.service_id}"></label>
+                    <label th:text="'route: ' + ${plugin.route.id}" th:if="${plugin.route}"></label>
+                    <label th:text="'service: ' + ${plugin.service.id}" th:if="${plugin.service}"></label>
                 </strong>
             </legend>
 
             <form action="/kong/plugins/save" method="post" class="form-horizontal">
                 <input type="hidden" th:value="${plugin.id}" id="plugin_id" name="id"/>
-                <input type="hidden" th:value="${plugin.service_id}" id="service_id" name="service_id"/>
-                <input type="hidden" th:value="${plugin.route_id}" id="route_id" name="route_id"/>
+                <input type="hidden" th:value="${plugin.name}" id="plugin_db_name"/>
+                <input type="hidden" th:value="${plugin.service.id}" id="service_id" name="service.id"  th:if="${plugin.service}"/>
+                <input type="hidden" th:value="${plugin.route.id}" id="route_id" name="route.id" th:if="${plugin.route}"/>
+                <input type="hidden" th:value="${plugin.consumer.id}" id="consumer_id" name="consumer.id" th:if="${plugin.consumer}"/>
                 <div class="form-group">
                     <label for="plugin_name" class="col-sm-2 control-label">name:</label>
                     <div class="col-xs-4">
@@ -57,9 +59,9 @@
                 <div class="form-group">
                     <label for="plugin_consumer" class="col-sm-2 control-label">consumer:</label>
                     <div class="col-xs-4">
-                        <select class="form-control" id="plugin_consumer" name="consumer_id">
+                        <select class="form-control" id="plugin_consumer" name="consumer.id">
                             <option value="" >all</option>
-                            <option th:each="consumer : ${consumers}" th:value="${consumer.id}" th:text="${consumer.username}"></option>
+                            <option th:each="consumer : ${consumers}" th:value="${consumer.id}" th:text="${consumer.username}" ></option>
                         </select>
                     </div>
                 </div>
@@ -112,6 +114,19 @@
         </div>
     <script type="application/javascript">
         $(function(){
+            var plugin_name = $('#plugin_db_name').val();
+            $('#plugin_name option').each(function(){
+                if($(this).val() == plugin_name){
+                    $(this).attr('selected', 'selected');
+                }
+            });
+            var plugin_consumer_id = $('#consumer_id').val();
+            $('#plugin_consumer option').each(function(){
+                if($(this).val() == plugin_consumer_id){
+                    $(this).attr('selected', 'selected');
+                }
+            });
+
             function showServiceName(){
 
                 $('input[type=text]').each(function(){

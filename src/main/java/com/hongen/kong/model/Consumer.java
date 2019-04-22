@@ -10,6 +10,11 @@ public class Consumer {
     String username;
     String id;
 
+    public Consumer(String consumer_id) {
+        id = consumer_id;
+    }
+    public Consumer() {}
+
     public String getCustom_id() {
         return custom_id;
     }

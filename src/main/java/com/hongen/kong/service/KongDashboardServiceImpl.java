@@ -216,6 +216,120 @@ public class KongDashboardServiceImpl implements KongDashboardService {
     }
 
 
+    class KongPluginService{
+
+        String id;
+        public KongPluginService(String service_id){
+            id = service_id;
+        }
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+    }
+
+    class KongPluginRoute{
+        String id;
+        public KongPluginRoute(String route_id){
+            id = route_id;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+    }
+    class KongPluginConsumer{
+        String id;
+        KongPluginConsumer(String consumer_id){
+            id = consumer_id;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+    }
+
+    class KongPluginJwtConfig{
+        List<String> claims_to_verify;
+
+        public List<String> getClaims_to_verify() {
+            return claims_to_verify;
+        }
+
+        public void setClaims_to_verify(List<String> claims_to_verify) {
+            this.claims_to_verify = claims_to_verify;
+        }
+
+    }
+
+    class KongPluginObject{
+        String id;
+        String name;
+        Object config;
+        KongPluginConsumer consumer;
+        KongPluginRoute route;
+        KongPluginService service;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Object getConfig() {
+            return config;
+        }
+
+        public void setConfig(Object config) {
+            this.config = config;
+        }
+
+        public KongPluginConsumer getConsumer() {
+            return consumer;
+        }
+
+        public void setConsumer(KongPluginConsumer consumer) {
+            this.consumer = consumer;
+        }
+
+        public KongPluginRoute getRoute() {
+            return route;
+        }
+
+        public void setRoute(KongPluginRoute route) {
+            this.route = route;
+        }
+
+        public KongPluginService getService() {
+            return service;
+        }
+
+        public void setService(KongPluginService service) {
+            this.service = service;
+        }
+    }
+
 
     @Override
     public void addPlugin(KongPlugin plugin) {
@@ -228,14 +342,14 @@ public class KongDashboardServiceImpl implements KongDashboardService {
             url = url + "/plugins";
         }
         Map<String,Object> map = new HashMap<>();
-        map.put("name",plugin.getName());
-        if(!StringUtils.isEmpty(plugin.getConsumer().getId())){
-            map.put("consumer_id",plugin.getConsumer().getId());
-        }
+        KongPluginObject kongPluginObject = new KongPluginObject();
+        kongPluginObject.setName(plugin.getName());
         switch (plugin.getName()){
             case "jwt":
                 if(plugin.getConfig().getClaims_to_verify().size() > 0){
-                    map.put("config.claims_to_verify",plugin.getConfig().getClaims_to_verify());
+                    KongPluginJwtConfig jwt_config = new KongPluginJwtConfig();
+                    jwt_config.setClaims_to_verify(plugin.getConfig().getClaims_to_verify());
+                    kongPluginObject.setConfig(jwt_config);
                 }
                 break;
             case "statsd":
@@ -250,7 +364,16 @@ public class KongDashboardServiceImpl implements KongDashboardService {
                 map.put("config.path",plugin.getConfig().getPath());
                 break;
         }
-        String json = JSON.toJSONString(map);
+        if(!StringUtils.isEmpty(plugin.getRoute().getId())){
+            kongPluginObject.setRoute(new KongPluginRoute(plugin.getRoute().getId()));
+        }
+        if(!StringUtils.isEmpty(plugin.getService().getId())){
+            kongPluginObject.setService(new KongPluginService(plugin.getService().getId()));
+        }
+        if(!StringUtils.isEmpty(plugin.getConsumer().getId())){
+            kongPluginObject.setConsumer(new KongPluginConsumer(plugin.getConsumer().getId()));
+        }
+        String json = JSON.toJSONString(kongPluginObject);
         logger.info("add plugin {}", json);
         final String data = HttpRequestUtils.post(url, json);
         logger.info("add plugin success! data:{}",data);
@@ -259,10 +382,11 @@ public class KongDashboardServiceImpl implements KongDashboardService {
     @Override
     public void updatePlugin(KongPlugin plugin) {
         String url = kongServer + "/plugins/" + plugin.getId();
-        Map<String,Object> map = new HashMap<>();
-        map.put("name",plugin.getName());
-        map.put("config",plugin.getConfig());
-        String json = JSON.toJSONString(map);
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("name",plugin.getName());
+//        map.put("config",plugin.getConfig());
+
+        String json = JSON.toJSONString(plugin);
         logger.info("update plugin {}", json);
         final String data = HttpRequestUtils.patch(url, json);
         logger.info("update plugin success! data:{}",data);
