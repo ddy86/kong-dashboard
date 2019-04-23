@@ -9,7 +9,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ddy on 2018/4/4.
@@ -171,6 +173,12 @@ public class KongDashboardController {
             String routeInfo = route.getHosts() + ":" + route.getPaths();
             map.addAttribute("routeInfo",routeInfo);
         }
+        final List<Consumer> consumers = kongDashboardService.getConsumers();
+        Map<String, String> consumerNameMap = new HashMap<>();
+        for(Consumer consumer : consumers){
+            consumerNameMap.put(consumer.getId(), consumer.getUsername());
+        }
+        map.addAttribute("consumerNameMap", consumerNameMap);
         map.addAttribute("plugins", plugins);
         map.addAttribute("nav_plugin", true);
         return "plugins";

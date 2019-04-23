@@ -210,9 +210,7 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         String url = kongServer + "/plugins/" + plugin_id;
         final String data = HttpRequestUtils.get(url);
         logger.info("get Plugin : {}",data);
-        final KongPlugin plugin = JSON.parseObject(data, new TypeReference<KongPlugin>() {
-        });
-        return plugin;
+        return JSON.parseObject(data, new TypeReference<KongPlugin>() {});
     }
 
 
@@ -263,6 +261,12 @@ public class KongDashboardServiceImpl implements KongDashboardService {
     class KongPluginJwtConfig{
         List<String> claims_to_verify;
 
+        KongPluginJwtConfig(){}
+
+        KongPluginJwtConfig(List<String> param_claims_to_verify){
+            claims_to_verify = param_claims_to_verify;
+        }
+
         public List<String> getClaims_to_verify() {
             return claims_to_verify;
         }
@@ -270,13 +274,84 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         public void setClaims_to_verify(List<String> claims_to_verify) {
             this.claims_to_verify = claims_to_verify;
         }
+    }
 
+    class KongPluginStatsdConfig{
+        String host;
+        long port;
+
+        KongPluginStatsdConfig(){}
+
+        KongPluginStatsdConfig(String param_host, long param_port){
+            host = param_host;
+            port = param_port;
+        }
+
+        public String getHost() {
+            return host;
+        }
+
+        public void setHost(String host) {
+            this.host = host;
+        }
+
+        public long getPort() {
+            return port;
+        }
+
+        public void setPort(long port) {
+            this.port = port;
+        }
+    }
+
+    class KongPluginRateLimitingConfig{
+        long second;
+        long hour;
+
+        KongPluginRateLimitingConfig(long param_second, long param_hour){
+            second = param_second;
+            hour = param_hour;
+        }
+
+        public long getSecond() {
+            return second;
+        }
+
+        public void setSecond(long second) {
+            this.second = second;
+        }
+
+        public long getHour() {
+            return hour;
+        }
+
+        public void setHour(long hour) {
+            this.hour = hour;
+        }
+    }
+
+    class KongPluginFileLogConfig{
+        String path;
+
+        KongPluginFileLogConfig(String param_path){
+            path = param_path;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String path) {
+            this.path = path;
+        }
     }
 
     class KongPluginObject{
         String id;
         String name;
         Object config;
+        String run_on; // first, second, all. Defaults to "first".
+        List<String> protocols; // Defaults to ["http", "https"].
         KongPluginConsumer consumer;
         KongPluginRoute route;
         KongPluginService service;
@@ -328,6 +403,22 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         public void setService(KongPluginService service) {
             this.service = service;
         }
+
+        public String getRun_on() {
+            return run_on;
+        }
+
+        public void setRun_on(String run_on) {
+            this.run_on = run_on;
+        }
+
+        public List<String> getProtocols() {
+            return protocols;
+        }
+
+        public void setProtocols(List<String> protocols) {
+            this.protocols = protocols;
+        }
     }
 
 
@@ -341,39 +432,8 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         }else{
             url = url + "/plugins";
         }
-        Map<String,Object> map = new HashMap<>();
-        KongPluginObject kongPluginObject = new KongPluginObject();
-        kongPluginObject.setName(plugin.getName());
-        switch (plugin.getName()){
-            case "jwt":
-                if(plugin.getConfig().getClaims_to_verify().size() > 0){
-                    KongPluginJwtConfig jwt_config = new KongPluginJwtConfig();
-                    jwt_config.setClaims_to_verify(plugin.getConfig().getClaims_to_verify());
-                    kongPluginObject.setConfig(jwt_config);
-                }
-                break;
-            case "statsd":
-                map.put("config.host",plugin.getConfig().getHost());
-                map.put("config.port",plugin.getConfig().getPort());
-                break;
-            case "rate-limiting":
-                map.put("config.second",plugin.getConfig().getSecond());
-                map.put("config.hour",plugin.getConfig().getHour());
-                break;
-            case "file-log":
-                map.put("config.path",plugin.getConfig().getPath());
-                break;
-        }
-        if(!StringUtils.isEmpty(plugin.getRoute().getId())){
-            kongPluginObject.setRoute(new KongPluginRoute(plugin.getRoute().getId()));
-        }
-        if(!StringUtils.isEmpty(plugin.getService().getId())){
-            kongPluginObject.setService(new KongPluginService(plugin.getService().getId()));
-        }
-        if(!StringUtils.isEmpty(plugin.getConsumer().getId())){
-            kongPluginObject.setConsumer(new KongPluginConsumer(plugin.getConsumer().getId()));
-        }
-        String json = JSON.toJSONString(kongPluginObject);
+
+        String json = convertPluginToJsonString(plugin);
         logger.info("add plugin {}", json);
         final String data = HttpRequestUtils.post(url, json);
         logger.info("add plugin success! data:{}",data);
@@ -382,15 +442,50 @@ public class KongDashboardServiceImpl implements KongDashboardService {
     @Override
     public void updatePlugin(KongPlugin plugin) {
         String url = kongServer + "/plugins/" + plugin.getId();
-//        Map<String,Object> map = new HashMap<>();
-//        map.put("name",plugin.getName());
-//        map.put("config",plugin.getConfig());
-
-        String json = JSON.toJSONString(plugin);
+        String json = convertPluginToJsonString(plugin);
         logger.info("update plugin {}", json);
         final String data = HttpRequestUtils.patch(url, json);
         logger.info("update plugin success! data:{}",data);
     }
+
+
+    private String convertPluginToJsonString(KongPlugin plugin){
+        Map<String,Object> map = new HashMap<>();
+        KongPluginObject kongPluginObject = new KongPluginObject();
+        kongPluginObject.setName(plugin.getName());
+        switch (plugin.getName()){
+            case "jwt":
+                if(plugin.getConfig().getClaims_to_verify().size() > 0){
+                    kongPluginObject.setConfig(new KongPluginJwtConfig(plugin.getConfig().getClaims_to_verify()));
+                }
+                break;
+            case "statsd":
+                kongPluginObject.setConfig(new KongPluginStatsdConfig(plugin.getConfig().getHost(), plugin.getConfig().getPort()));
+                break;
+            case "rate-limiting":
+                kongPluginObject.setConfig(new KongPluginRateLimitingConfig(plugin.getConfig().getSecond(), plugin.getConfig().getHour()));
+                break;
+            case "file-log":
+                kongPluginObject.setConfig(new KongPluginFileLogConfig(plugin.getConfig().getPath()));
+                break;
+        }
+        if(null != plugin.getRoute() && !StringUtils.isEmpty(plugin.getRoute().getId())){
+            kongPluginObject.setRoute(new KongPluginRoute(plugin.getRoute().getId()));
+        }
+        if(null != plugin.getService() && !StringUtils.isEmpty(plugin.getService().getId())){
+            kongPluginObject.setService(new KongPluginService(plugin.getService().getId()));
+        }
+        if(null != plugin.getConsumer() && !StringUtils.isEmpty(plugin.getConsumer().getId())){
+            kongPluginObject.setConsumer(new KongPluginConsumer(plugin.getConsumer().getId()));
+        }
+        kongPluginObject.setRun_on("first");
+        List<String> protocols = new ArrayList<>();
+        protocols.add("http");
+        protocols.add("https");
+        kongPluginObject.setProtocols(protocols);
+        return JSON.toJSONString(kongPluginObject);
+    }
+
 
     @Override
     public void deletePlugin(String plugin_id) {

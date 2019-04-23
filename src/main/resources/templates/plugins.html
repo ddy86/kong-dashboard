@@ -18,6 +18,7 @@
                         <th>name</th>
                         <th>service.id</th>
                         <th>route.id</th>
+                        <th>consumer</th>
                         <th>enabled</th>
                         <th>config.claims_to_verify</th>
                         <th>created_at</th>
@@ -35,6 +36,8 @@
                             <br>
                             <span th:if="${plugin.route}" th:id="${plugin.route.id}"></span>
                         </td>
+                        <td th:text="${consumerNameMap[plugin.consumer.id]}" th:if="${plugin.consumer}"></td>
+                        <td th:text="null" th:if="${null ==  plugin.consumer}"></td>
                         <td th:text="${plugin.enabled}"></td>
                         <td th:text="${plugin.config.claims_to_verify}"></td>
                         <td th:text="${#dates.format(plugin.created_at * 1000, 'yyyy-MM-dd HH:mm:ss')}"></td>

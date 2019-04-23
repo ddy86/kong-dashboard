@@ -20,7 +20,7 @@
                 <input type="hidden" th:value="${plugin.name}" id="plugin_db_name"/>
                 <input type="hidden" th:value="${plugin.service.id}" id="service_id" name="service.id"  th:if="${plugin.service}"/>
                 <input type="hidden" th:value="${plugin.route.id}" id="route_id" name="route.id" th:if="${plugin.route}"/>
-                <input type="hidden" th:value="${plugin.consumer.id}" id="consumer_id" name="consumer.id" th:if="${plugin.consumer}"/>
+                <input type="hidden" th:value="${plugin.consumer.id}" id="consumer_id" th:if="${plugin.consumer}"/>
                 <div class="form-group">
                     <label for="plugin_name" class="col-sm-2 control-label">name:</label>
                     <div class="col-xs-4">
@@ -113,7 +113,19 @@
             <div th:text="${pluginConfig}"></div>
         </div>
     <script type="application/javascript">
+        function select_option_changed(pluginName){
+            if(null == pluginName){
+                pluginName = $('#plugin_db_name').val();
+            }
+            $('.plugin-option').hide();
+            if('jwt' === pluginName){
+                var claims_to_verify = $('#plugin_config_claims_to_verify').val();
+                $('#plugin_config_claims_to_verify').val(claims_to_verify.substring(1, claims_to_verify.length-1));
+            }
+            $('.plugin-'+pluginName).show();
+        }
         $(function(){
+            select_option_changed(null);
             var plugin_name = $('#plugin_db_name').val();
             $('#plugin_name option').each(function(){
                 if($(this).val() == plugin_name){
@@ -138,9 +150,10 @@
             }
             $('#plugin_name').change(function(){
                 var pluginName = $(this).val();
-                $('.plugin-option').hide();
-                $('.plugin-'+pluginName).show();
+                select_option_changed(pluginName)
             })
+
+
         })
     </script>
     </body>
