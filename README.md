@@ -1,11 +1,14 @@
 # kong-dashboard
-使用springBoot + thymeleaf开发；
 
-废弃API对象，使用Service+Route，只兼容kong0.13+；
+### framework
 
-github上的node+angular版本更新过慢。
+springBoot + thymeleaf
 
-集成swagger2-api页面。
+### features
+
+for kong version 1.1+
+
+including swagger2-api
 
 ### install & run
 
@@ -18,4 +21,4 @@ java 8.0 +, maven 3 +
         -DKONG_LOG_LEVEL=debug \
         -jar kong-dashboard-xxx.jar 
     
- 默认用户名：admin
+default username：admin
