@@ -567,4 +567,16 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         final String data = HttpRequestUtils.delete(url);
         logger.info("delete consumer jwt success! data:{}",data);
     }
+
+    @Override
+    public List<ConsumerAcl> getConsumerAcls(String username) {
+        String url = kongServer + "/consumers/" + username + "/acls";
+        final String data = HttpRequestUtils.get(url);
+//        logger.info("get consumer acl success! data:{}",data);
+        ConsumerAclVo vo = JSON.parseObject(data, new TypeReference<ConsumerAclVo>() {
+        });
+        return vo.getData();
+    }
+
+
 }

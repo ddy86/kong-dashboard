@@ -304,4 +304,11 @@ public class KongDashboardController {
     public void delConsumerJWT(@PathVariable String username,@PathVariable String jwt_id){
         kongDashboardService.delConsumerJwt(username,jwt_id);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/consumers/{username}/acls",method = RequestMethod.GET)
+    public List<ConsumerAcl> getConsumerACLs(@PathVariable String username){
+        return kongDashboardService.getConsumerAcls(username);
+    }
+
 }
