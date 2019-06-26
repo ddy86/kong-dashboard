@@ -5,12 +5,12 @@ package com.hongen.kong.model;
  */
 public class ConsumerJwt {
 
-    String id;
-    String key;
-    String secret;
-    Consumer consumer;
-    String algorithm;
-    long created_at;
+    private String id;
+    private String key;
+    private String secret;
+    private Consumer consumer;
+    private String algorithm;
+    private long created_at;
 
     public String getId() {
         return id;

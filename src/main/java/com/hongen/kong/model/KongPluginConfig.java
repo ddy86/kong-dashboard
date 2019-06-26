@@ -8,22 +8,22 @@ import java.util.List;
  */
 public class KongPluginConfig {
     //jwt
-    List<String> claims_to_verify;
-    Boolean secret_is_base64;
-    String key_claim_name;
-    Object cookie_names;
-    String anonymous;
-    Boolean run_on_preflight;
-    List<String> uri_param_names;
+    private List<String> claims_to_verify;
+    private Boolean secret_is_base64;
+    private String key_claim_name;
+    private Object cookie_names;
+    private String anonymous;
+    private Boolean run_on_preflight;
+    private List<String> uri_param_names;
 
     //statsd
-    String host;
-    Integer port = 8125;
+    private String host;
+    private Integer port = 8125;
     //rate-limiting
-    Integer second;
-    Integer hour;
+    private Integer second;
+    private Integer hour;
     //file-log
-    String path;
+    private String path;
 
     public List<String> getClaims_to_verify() {
         return claims_to_verify;

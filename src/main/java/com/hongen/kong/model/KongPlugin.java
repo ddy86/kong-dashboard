@@ -7,17 +7,17 @@ import java.util.List;
  */
 public class KongPlugin {
 
-    String id;
-    String name;
-    KongService service;
-    KongRoute route;
-    Boolean enabled;
-    KongPluginConfig config;
-    Long created_at;
-    Consumer consumer;
-    String run_on;
-    List<String> protocols;
-    List<String> tags;
+    private String id;
+    private String name;
+    private KongService service;
+    private KongRoute route;
+    private Boolean enabled;
+    private KongPluginConfig config;
+    private Long created_at;
+    private Consumer consumer;
+    private String run_on;
+    private List<String> protocols;
+    private List<String> tags;
 
     public String getId() {
         return id;

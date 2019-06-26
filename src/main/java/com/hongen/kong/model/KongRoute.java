@@ -6,17 +6,17 @@ import java.util.List;
  * Created by ddy on 2018/4/8.
  */
 public class KongRoute {
-    long created_at;
-    boolean strip_path;
-    List<String> hosts;
-    boolean preserve_host;
-    int regex_priority;         //优先级
-    long updated_at;
-    List<String> paths;
-    KongService service;
-    List<String> methods;
-    List<String> protocols;
-    String id;
+    private long created_at;
+    private boolean strip_path;
+    private List<String> hosts;
+    private boolean preserve_host;
+    private int regex_priority;         //优先级
+    private long updated_at;
+    private List<String> paths;
+    private KongService service;
+    private List<String> methods;
+    private List<String> protocols;
+    private String id;
 
     public KongRoute(){}
 

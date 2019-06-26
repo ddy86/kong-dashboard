@@ -5,20 +5,20 @@ package com.hongen.kong.model;
  */
 public class KongService {
 
-    String host;	        //The host of the upstream server.
-    long created_at;
-    long connect_timeout;   //optional	//The timeout in milliseconds for establishing a connection to the upstream server. Defaults to 60000.
-    String id;
-    String protocol;	    //The protocol used to communicate with the upstream. It can be one of http (default) or https.
-    String name;	        //The KongDashboardService name.
-    long read_timeout;      //optional	//The timeout in milliseconds between two successive read operations for transmitting a request to the upstream server. Defaults to 60000.
-    int port;	            //The upstream server port. Defaults to 80.
-    String path;            //optional	//The path to be used in requests to the upstream server. Empty by default.
-    int retries;            //optional	//The number of retries to execute upon failure to proxy. The default is 5.
-    long updated_at;
-    long write_timeout;     //optional	//The timeout in milliseconds between two successive write operations for transmitting a request to the upstream server. Defaults to 60000.
+    private String host;	        //The host of the upstream server.
+    private long created_at;
+    private long connect_timeout;   //optional	//The timeout in milliseconds for establishing a connection to the upstream server. Defaults to 60000.
+    private String id;
+    private String protocol;	    //The protocol used to communicate with the upstream. It can be one of http (default) or https.
+    private String name;	        //The KongDashboardService name.
+    private long read_timeout;      //optional	//The timeout in milliseconds between two successive read operations for transmitting a request to the upstream server. Defaults to 60000.
+    private int port;	            //The upstream server port. Defaults to 80.
+    private String path;            //optional	//The path to be used in requests to the upstream server. Empty by default.
+    private int retries;            //optional	//The number of retries to execute upon failure to proxy. The default is 5.
+    private long updated_at;
+    private long write_timeout;     //optional	//The timeout in milliseconds between two successive write operations for transmitting a request to the upstream server. Defaults to 60000.
 
-    String url;
+    private String url;
 
     public KongService(){}
 

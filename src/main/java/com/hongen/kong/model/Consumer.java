@@ -5,10 +5,10 @@ package com.hongen.kong.model;
  */
 public class Consumer {
 
-    String custom_id;
-    long created_at;
-    String username;
-    String id;
+    private String custom_id;
+    private long created_at;
+    private String username;
+    private String id;
 
     public Consumer(String consumer_id) {
         id = consumer_id;
