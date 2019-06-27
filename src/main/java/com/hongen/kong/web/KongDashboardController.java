@@ -32,6 +32,12 @@ public class KongDashboardController {
         return "services";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/all_services",method = RequestMethod.GET)
+    public List<KongService> getAllServices(){
+        return kongDashboardService.getServices();
+    }
+
     @RequestMapping(value = "/services/add",method = RequestMethod.GET)
     public String addService(ModelMap map){
         KongService service = new KongService();
@@ -144,6 +150,12 @@ public class KongDashboardController {
         return "routes";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/all_routes",method = RequestMethod.GET)
+    public List<KongRoute> getAllRoutes(){
+        return kongDashboardService.getRoutes(null);
+    }
+
     @RequestMapping(value = "/routes/save", method = RequestMethod.POST)
     public String saveRoute(@ModelAttribute KongRoute route) {
         if(StringUtils.isEmpty(route.getId())){
@@ -154,7 +166,6 @@ public class KongDashboardController {
 
         return "redirect:/kong/routes?service="+route.getService().getId();
     }
-
 
 
     @RequestMapping(value = "/plugins",method = RequestMethod.GET)
@@ -303,6 +314,12 @@ public class KongDashboardController {
     @RequestMapping(value = "/consumers/{username}/jwt/{jwt_id}",method = RequestMethod.DELETE)
     public void delConsumerJWT(@PathVariable String username,@PathVariable String jwt_id){
         kongDashboardService.delConsumerJwt(username,jwt_id);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/all_acls",method = RequestMethod.GET)
+    public List<ConsumerAcl> getAllACLs(){
+        return kongDashboardService.getAllAcls();
     }
 
     @ResponseBody

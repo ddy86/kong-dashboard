@@ -41,4 +41,6 @@ public interface KongDashboardService {
     void delConsumerJwt(String username, String jwt_id);
 
     List<ConsumerAcl> getConsumerAcls(String username);
+
+    List<ConsumerAcl> getAllAcls();
 }

@@ -33,7 +33,7 @@
                 <tbody>
                     <tr th:each="route : ${routes}">
                         <th>
-                            <a class="service_id" th:text="${route.service.id}" th:href="@{/kong/routes(service=${route.service.id})}"></a>
+                            <a class="service_id" th:service_id="${route.service.id}" th:href="@{/kong/routes(service=${route.service.id})}"></a>
                         </th>
                         <td th:text="${route.hosts}"></td>
                         <td th:text="${route.paths}"></td>
@@ -77,13 +77,18 @@
                     })
                 });
 
+                var all_services = $.ajax({url:"/kong/all_services", async:false});
+                var all_service_json = all_services.responseText;
+                var all_service_obj = eval('(' + all_service_json + ')');
+                var service_map = {};
+                for(var i=0; i<all_service_obj.length;i++){
+                    service_map[all_service_obj[i].id] = all_service_obj[i].name;
+                }
+
                 $('.service_id').each(function(){
-                    var this_service_id = $(this).text();
+                    var this_service_id = $(this).attr("service_id");
                     if(this_service_id != '' && null != this_service_id){
-                        var serviceResponse = $.ajax({url:"/kong/services/"+this_service_id+"/obj",async:false});
-                        var serviceJson = serviceResponse.responseText;
-                        var serviceObj = eval('(' + serviceJson + ')');
-                        $(this).text(serviceObj.name);
+                        $(this).text(service_map[this_service_id]);
                     }
                 })
             })

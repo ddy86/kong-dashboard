@@ -29,10 +29,10 @@
                     <tr th:each="plugin : ${plugins}">
                         <th scope="row" th:text="${plugin.name}"></th>
                         <td>
-                            <a class="service_id" th:if="${plugin.service}" th:href="@{/kong/plugins(service=${plugin.service.id})}" th:text="${plugin.service.id}"></a>
+                            <a class="service_id" th:if="${plugin.service}" th:href="@{/kong/plugins(service=${plugin.service.id})}" th:service_id="${plugin.service.id}"></a>
                         </td>
                         <td>
-                            <a class="route_id" th:if="${plugin.route}" th:href="@{/kong/plugins(route_id=${plugin.route.id})}" th:text="${plugin.route.id}"></a>
+                            <a class="route_id" th:if="${plugin.route}" th:href="@{/kong/plugins(route_id=${plugin.route.id})}" th:route_id="${plugin.route.id}"></a>
                             <br>
                             <span th:if="${plugin.route}" th:id="${plugin.route.id}"></span>
                         </td>
@@ -76,25 +76,44 @@
                 })
             });
 
+            var all_services = $.ajax({url:"/kong/all_services", async:false});
+            var all_service_json = all_services.responseText;
+            var all_service_obj = eval('(' + all_service_json + ')');
+            var service_map = {};
+            for(var i=0; i<all_service_obj.length;i++){
+                service_map[all_service_obj[i].id] = all_service_obj[i].name;
+            }
+
+            var all_routes = $.ajax({url:"/kong/all_routes", async:false});
+            var all_route_json = all_routes.responseText;
+            var all_route_obj = eval('(' + all_route_json + ')');
+            var route_map = {};
+            for(var i=0; i<all_route_obj.length;i++){
+                var service_name = service_map[all_route_obj[i].service.id];
+                route_map[all_route_obj[i].id] = service_name + ":" + all_route_obj[i].paths;
+            }
+
             $('.route_id').each(function(){//replace route_id to serviceName
-                var this_route_id = $(this).text();
+                var this_route_id = $(this).attr("route_id");
                 if(this_route_id != '' && null != this_route_id){
-                    var serviceResponse = $.ajax({url:"/kong/routes/"+this_route_id+"/service/obj", async:false});
-                    var serviceJson = serviceResponse.responseText;
-                    var serviceObj = eval('(' + serviceJson + ')');
-                    var routeResponse = $.ajax({url: "/kong/routes/" + this_route_id + "/obj", async: false});
-                    var routeJson = routeResponse.responseText;
-                    var routeObj = eval('(' + routeJson + ')');
-                    $(this).text(serviceObj.name + ":" + routeObj.paths);
+                    // var serviceResponse = $.ajax({url:"/kong/routes/"+this_route_id+"/service/obj", async:false});
+                    // var serviceJson = serviceResponse.responseText;
+                    // var serviceObj = eval('(' + serviceJson + ')');
+                    // var routeResponse = $.ajax({url: "/kong/routes/" + this_route_id + "/obj", async: false});
+                    // var routeJson = routeResponse.responseText;
+                    // var routeObj = eval('(' + routeJson + ')');
+                    // $(this).text(serviceObj.name + ":" + routeObj.paths);
+                    $(this).text(route_map[this_route_id]);
                 }
             })
             $('.service_id').each(function(){//replace service_id to serviceName
-                var this_service_id = $(this).text();
+                var this_service_id = $(this).attr("service_id");
                 if(this_service_id != '' && null != this_service_id){
-                    var serviceResponse = $.ajax({url:"/kong/services/"+this_service_id+"/obj",async:false});
-                    var serviceJson = serviceResponse.responseText;
-                    var serviceObj = eval('(' + serviceJson + ')');
-                    $(this).text(serviceObj.name);
+                    // var serviceResponse = $.ajax({url:"/kong/services/"+this_service_id+"/obj",async:false});
+                    // var serviceJson = serviceResponse.responseText;
+                    // var serviceObj = eval('(' + serviceJson + ')');
+                    // $(this).text(serviceObj.name);
+                    $(this).text(service_map[this_service_id]);
                 }
             })
 

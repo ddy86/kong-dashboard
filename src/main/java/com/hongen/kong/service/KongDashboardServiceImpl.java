@@ -578,5 +578,15 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         return vo.getData();
     }
 
+    @Override
+    public List<ConsumerAcl> getAllAcls() {
+        String url = kongServer + "/acls";
+        final String data = HttpRequestUtils.get(url);
+//        logger.info("get consumer acl success! data:{}",data);
+        ConsumerAclVo vo = JSON.parseObject(data, new TypeReference<ConsumerAclVo>() {
+        });
+        return vo.getData();
+    }
+
 
 }

@@ -27,10 +27,11 @@
                     <tr th:each="consumer : ${consumers}">
                         <th scope="row" th:text="${consumer.id}"></th>
                         <td th:text="${consumer.username}"></td>
-                        <td class="acl_group" th:text="${consumer.username}"></td>
+                        <td class="acl_group" th:consumer_id="${consumer.id}"></td>
                         <td th:text="${consumer.custom_id}"></td>
                         <td th:text="${#dates.format(consumer.created_at * 1000, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
+                            <a class="btn btn-info" th:href="@{'/kong/consumers/' + ${consumer.username} + '/acl'}">acl</a>
                             <a class="btn btn-info" th:href="@{'/kong/consumers/' + ${consumer.username} + '/jwt'}">jwt</a>
                             <a class="btn btn-primary" th:href="@{'/kong/consumers/' + ${consumer.id}}">update</a>
                             <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:value="${consumer.id}">delete</a>
@@ -62,17 +63,22 @@
                         }
                     })
                 });
-                $('.acl_group').each(function(){//replace service_id to serviceName
-                    var this_username = $(this).text();
-                    var aclResponse = $.ajax({url:"/kong/consumers/"+this_username+"/acls",async:false});
-                    var aclJson = aclResponse.responseText;
-                    var aclObjs = eval('(' + aclJson + ')');
-                    var groups = "";
-                    for(var i=0; i<aclObjs.length; i++){
-                        console.log(aclObjs[i].group);
-                        groups += aclObjs[i].group + ", ";
+                var map = {};
+                var aclResponse = $.ajax({url:"/kong/all_acls",async:false});
+                var aclJson = aclResponse.responseText;
+                var aclObjs = eval('(' + aclJson + ')');
+                for(var i=0; i<aclObjs.length; i++){
+                    var consumer_id = aclObjs[i].consumer.id;
+                    if(map[consumer_id] == null){
+                        map[consumer_id] = aclObjs[i].group;
+                    }else{
+                        map[consumer_id] = map[consumer_id] + "," + aclObjs[i].group;
                     }
-                    $(this).text(groups.substring(0, groups.length-2));
+                }
+
+                $('.acl_group').each(function(){//replace service_id to serviceName
+                    var this_consumer_id = $(this).attr('consumer_id');
+                    $(this).text(map[this_consumer_id]);
                 })
             })
         </script>
