@@ -276,6 +276,58 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         }
     }
 
+    class KongPluginAclWhiteListConfig{
+        List<String> whitelist;
+        Boolean hide_groups_header;
+
+        KongPluginAclWhiteListConfig(List<String> param_whitelist){
+            whitelist = param_whitelist;
+            hide_groups_header = true;
+        }
+
+        public List<String> getWhitelist() {
+            return whitelist;
+        }
+
+        public void setWhitelist(List<String> whitelist) {
+            this.whitelist = whitelist;
+        }
+
+        public Boolean getHide_groups_header() {
+            return hide_groups_header;
+        }
+
+        public void setHide_groups_header(Boolean hide_groups_header) {
+            this.hide_groups_header = hide_groups_header;
+        }
+    }
+
+    class KongPluginAclBlackListConfig{
+        List<String> blacklist;
+        Boolean hide_groups_header;
+
+        KongPluginAclBlackListConfig(List<String> param_blacklist){
+            blacklist = param_blacklist;
+            hide_groups_header = true;
+        }
+
+        public List<String> getBlacklist() {
+            return blacklist;
+        }
+
+        public void setBlacklist(List<String> blacklist) {
+            this.blacklist = blacklist;
+        }
+
+        public Boolean getHide_groups_header() {
+            return hide_groups_header;
+        }
+
+        public void setHide_groups_header(Boolean hide_groups_header) {
+            this.hide_groups_header = hide_groups_header;
+        }
+    }
+
     class KongPluginStatsdConfig{
         String host;
         long port;
@@ -459,6 +511,18 @@ public class KongDashboardServiceImpl implements KongDashboardService {
                     kongPluginObject.setConfig(new KongPluginJwtConfig(plugin.getConfig().getClaims_to_verify()));
                 }
                 break;
+            case "acl":
+                List<String> whiteList = resolveAclGroupList(plugin.getConfig().getWhitelist());
+                List<String> blackList = resolveAclGroupList(plugin.getConfig().getBlacklist());
+                if(whiteList.size() > 0){
+                    kongPluginObject.setConfig(new KongPluginAclWhiteListConfig(whiteList));
+                    return JSON.toJSONString(kongPluginObject);
+                }else if(blackList.size() > 0){
+                    kongPluginObject.setConfig(new KongPluginAclBlackListConfig(blackList));
+                    return JSON.toJSONString(kongPluginObject);
+                }else{
+                    throw new NullPointerException("required one of the blackList and whiteList!");
+                }
             case "statsd":
                 kongPluginObject.setConfig(new KongPluginStatsdConfig(plugin.getConfig().getHost(), plugin.getConfig().getPort()));
                 break;
@@ -486,6 +550,18 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         return JSON.toJSONString(kongPluginObject);
     }
 
+    List<String> resolveAclGroupList(List<String> list){
+        List<String> returnList = new ArrayList<>();
+        if(null != list){
+            for(String groupItem : list){
+                if( ! StringUtils.isEmpty(groupItem)){
+                    returnList.add(groupItem);
+                }
+            }
+
+        }
+        return returnList;
+    }
 
     @Override
     public void deletePlugin(String plugin_id) {

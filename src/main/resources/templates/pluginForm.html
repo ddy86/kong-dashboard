@@ -56,7 +56,20 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group plugin-option plugin-acl">
+                    <label class="col-sm-2 control-label">consumer group whitelist:</label>
+                    <div class="col-xs-3 acl_whitelist">
+                    </div>
+                    <div class="col-xs-1"><a class="btn btn-info add_acl_whitelist" href="javascript:void(0)">add whitelist</a></div>
+                </div>
+                <div class="form-group plugin-option plugin-acl">
+                    <label class="col-sm-2 control-label">consumer group blacklist:</label>
+                    <div class="col-xs-3 acl_blacklist">
+                    </div>
+                    <div class="col-xs-1"><a class="btn btn-info add_acl_blacklist" href="javascript:void(0)">add blacklist</a></div>
+                </div>
+
+                <div class="form-group plugin-option">
                     <label for="plugin_consumer" class="col-sm-2 control-label">consumer:</label>
                     <div class="col-xs-4">
                         <select class="form-control" id="plugin_consumer" name="consumer.id">
@@ -151,8 +164,26 @@
             $('#plugin_name').change(function(){
                 var pluginName = $(this).val();
                 select_option_changed(pluginName)
-            })
+            });
 
+
+            $(".add_acl_blacklist").click(function () {
+                var child_length = $('.acl_blacklist').children().length;
+                var child = '<input class="form-control" id="plugin_acl_blacklist'
+                    + child_length
+                    + '" name="config.blacklist['
+                    + child_length + ']"/>';
+                $('.acl_blacklist').append(child)
+            });
+
+            $(".add_acl_whitelist").click(function () {
+                var child_length = $('.acl_whitelist').children().length;
+                var child = '<input class="form-control" id="plugin_acl_whitelist'
+                    + child_length
+                    + '" name="config.whitelist['
+                    + child_length + ']"/>';
+                $('.acl_whitelist').append(child)
+            });
 
         })
     </script>

@@ -16,12 +16,19 @@ public class KongPluginConfig {
     private Boolean run_on_preflight;
     private List<String> uri_param_names;
 
+    //acl
+    private List<String> whitelist;
+    private List<String> blacklist;
+    private Boolean hide_groups_header;
+
     //statsd
     private String host;
     private Integer port = 8125;
+
     //rate-limiting
     private Integer second;
     private Integer hour;
+
     //file-log
     private String path;
 
@@ -79,6 +86,30 @@ public class KongPluginConfig {
 
     public void setUri_param_names(List<String> uri_param_names) {
         this.uri_param_names = uri_param_names;
+    }
+
+    public List<String> getWhitelist() {
+        return whitelist;
+    }
+
+    public void setWhitelist(List<String> whitelist) {
+        this.whitelist = whitelist;
+    }
+
+    public List<String> getBlacklist() {
+        return blacklist;
+    }
+
+    public void setBlacklist(List<String> blacklist) {
+        this.blacklist = blacklist;
+    }
+
+    public Boolean getHide_groups_header() {
+        return hide_groups_header;
+    }
+
+    public void setHide_groups_header(Boolean hide_groups_header) {
+        this.hide_groups_header = hide_groups_header;
     }
 
     public String getHost() {
