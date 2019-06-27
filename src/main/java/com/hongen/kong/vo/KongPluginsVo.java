@@ -8,8 +8,8 @@ import java.util.List;
  * Created by ddy on 2018/4/8.
  */
 public class KongPluginsVo {
-    String next;
-    List<KongPlugin> data;
+    private String next;
+    private List<KongPlugin> data;
 
     public String getNext() {
         return next;

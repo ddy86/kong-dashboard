@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class KongServicesVo {
 
-    String next;
-    List<KongService> data;
+    private String next;
+    private List<KongService> data;
 
     public String getNext() {
         return next;

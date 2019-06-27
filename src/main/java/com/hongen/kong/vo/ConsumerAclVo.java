@@ -9,8 +9,8 @@ import java.util.List;
  */
 
 public class ConsumerAclVo {
-    String next;
-    List<ConsumerAcl> data;
+    private String next;
+    private List<ConsumerAcl> data;
 
     public String getNext() {
         return next;

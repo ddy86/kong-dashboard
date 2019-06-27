@@ -8,8 +8,8 @@ import java.util.List;
  * Created by ddy on 2018/4/10.
  */
 public class ConsumerJwtVo {
-    String next;
-    List<ConsumerJwt> data;
+    private String next;
+    private List<ConsumerJwt> data;
 
     public String getNext() {
         return next;

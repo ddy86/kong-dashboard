@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class KongRoutesVo {
 
-    String next;
-    List<KongRoute> data;
+    private String next;
+    private List<KongRoute> data;
 
     public String getNext() {
         return next;
