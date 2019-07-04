@@ -43,4 +43,10 @@ public interface KongDashboardService {
     List<ConsumerAcl> getConsumerAcls(String username);
 
     List<ConsumerAcl> getAllAcls();
+
+    List<KongUpstream> getUpstreams();
+
+    List<KongTarget> getTargets(String upstream);
+
+    KongUpstream getUpstream(String upstream_id);
 }

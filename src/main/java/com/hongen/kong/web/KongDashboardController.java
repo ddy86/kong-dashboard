@@ -167,6 +167,23 @@ public class KongDashboardController {
         return "redirect:/kong/routes?service="+route.getService().getId();
     }
 
+    @RequestMapping(value = "/upstreams", method = RequestMethod.GET)
+    public String getUpstreams(ModelMap map){
+        List<KongUpstream> upstreams = kongDashboardService.getUpstreams();
+        map.addAttribute("upstreams", upstreams);
+        map.addAttribute("nav_upstream", true);
+        return "upstreams";
+    }
+
+    @RequestMapping(value = "/upstreams/{upstream_id}/targets", method = RequestMethod.GET)
+    public String getTargets(ModelMap map,@PathVariable(value = "upstream_id") String upstream_id){
+        List<KongTarget> targets = kongDashboardService.getTargets(upstream_id);
+        KongUpstream upstream = kongDashboardService.getUpstream(upstream_id);
+        map.addAttribute("targets", targets);
+        map.addAttribute("upstream", upstream);
+        map.addAttribute("nav_target", true);
+        return "targets";
+    }
 
     @RequestMapping(value = "/plugins",method = RequestMethod.GET)
     public String getPluginsList(ModelMap map,@RequestParam(value = "service",required = false) String service,

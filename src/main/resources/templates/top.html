@@ -23,6 +23,12 @@
                 <li th:if="${nav_route eq null}"><a href="/kong/routes">routes</a></li>
                 <li th:if="${nav_plugin ne null and nav_plugin}" class="active"><a href="/kong/plugins">plugins</a></li>
                 <li th:if="${nav_plugin eq null}"><a href="/kong/plugins">plugins</a></li>
+
+                <li th:if="${nav_upstream ne null and nav_upstream}" class="active"><a href="/kong/upstreams">upstreams</a></li>
+                <li th:if="${nav_upstream eq null}"><a href="/kong/upstreams">upstreams</a></li>
+                <li th:if="${nav_target ne null and nav_target}" class="active"><a>targets</a></li>
+                <li th:if="${nav_target eq null}"><a>targets</a></li>
+
                 <li th:if="${nav_consumer ne null and nav_consumer}" class="active"><a href="/kong/consumers">consumers</a></li>
                 <li th:if="${nav_consumer eq null}"><a href="/kong/consumers">consumers</a></li>
                 <li><a href="/logout">logout</a></li>

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.*;
 
@@ -664,5 +665,26 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         return vo.getData();
     }
 
+    @Override
+    public List<KongUpstream> getUpstreams() {
+        String url = kongServer + "/upstreams";
+        String data = HttpRequestUtils.get(url);
+        KongUpstreamVo vo = JSON.parseObject(data, new TypeReference<KongUpstreamVo>(){});
+        return vo.getData();
+    }
 
+    @Override
+    public List<KongTarget> getTargets(String upstream) {
+        String url = kongServer + "/upstreams/" + upstream + "/targets";
+        String data = HttpRequestUtils.get(url);
+        KongTargetVo vo = JSON.parseObject(data, new TypeReference<KongTargetVo>(){});
+        return vo.getData();
+    }
+
+    @Override
+    public KongUpstream getUpstream(String upstream_id) {
+        String url = kongServer + "/upstreams/" + upstream_id;
+        String data = HttpRequestUtils.get(url);
+        return JSON.parseObject(data, new TypeReference<KongUpstream>(){});
+    }
 }
