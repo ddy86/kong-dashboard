@@ -1,5 +1,7 @@
 /* contentDiv */
-.contentDiv {padding:20px 60px;}
+.contentDiv {
+    padding: 80px 60px 20px;
+}
 
 .plugin-option{
     display: none;
