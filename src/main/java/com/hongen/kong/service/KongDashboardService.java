@@ -51,6 +51,8 @@ public interface KongDashboardService {
     void deleteUpstream(String upstream_id);
 
     List<KongTarget> getTargets(String upstream);
+    void addTarget(KongTarget target);
+    void deleteTarget(String upstream_id, String target_id);
 
 
 }

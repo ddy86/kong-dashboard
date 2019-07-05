@@ -722,4 +722,22 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         return vo.getData();
     }
 
+    @Override
+    public void addTarget(KongTarget target) {
+        String url = kongServer + "/upstreams/" + target.getUpstream().getId() + "/targets";
+        Map<String,Object> map = new HashMap<>();
+        map.put("target",target.getTarget());
+        map.put("weight",target.getWeight());
+        String json = JSON.toJSONString(map);
+        logger.info("add upstream {} target {}",target.getUpstream().getId(), json);
+        String data = HttpRequestUtils.post(url, json);
+        logger.info("add target result:", data);
+    }
+
+    @Override
+    public void deleteTarget(String upstream_id, String target_id) {
+        String url = kongServer + "/upstreams/" + upstream_id + "/targets/" + target_id;
+        final String data = HttpRequestUtils.delete(url);
+        logger.info("delete upstream {}'s target {} success! data:{}", upstream_id, target_id, data);
+    }
 }

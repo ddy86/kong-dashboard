@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>targetAdd</title>
+    </head>
+
+    <body>
+        <div th:include="top :: html"></div>
+        <div class="contentDiv">
+            <legend>
+                <strong><label th:text="${action}+': '+${upstream.name}+'/'"></label>target</strong>
+            </legend>
+
+            <form action="/kong/upstreams/target/save" method="post" class="form-horizontal">
+                <input type="hidden" th:value="${target.id}" id="target_id" name="id"/>
+                <input type="hidden" th:value="${upstream.id}" id="upstream_id" name="upstream.id"/>
+                <div class="form-group">
+                    <label for="target_target" class="col-sm-2 control-label">target</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="target_target" name="target" th:value="${target.target}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="target_weight" class="col-sm-2 control-label">weight:</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="target_weight" name="weight" th:value="${target.weight}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input class="btn btn-primary" type="submit" value="submit"/>&nbsp;&nbsp;
+                        <input class="btn " type="button" value="go back" onclick="history.back()"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

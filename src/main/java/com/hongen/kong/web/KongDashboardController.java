@@ -220,6 +220,31 @@ public class KongDashboardController {
         return "targets";
     }
 
+    @RequestMapping(value = "/upstreams/{upstream_id}/targets/add", method = RequestMethod.GET)
+    public String addTarget(ModelMap map,@PathVariable(value = "upstream_id") String upstream_id){
+        KongUpstream upstream = kongDashboardService.getUpstream(upstream_id);
+        KongTarget target = new KongTarget();
+        map.addAttribute("upstream", upstream);
+        map.addAttribute("target", target);
+        map.addAttribute("action","add");
+        map.addAttribute("nav_target", true);
+        return "targetForm";
+    }
+
+    @RequestMapping(value = "/upstreams/target/save", method = RequestMethod.POST)
+    public String saveTarget(@ModelAttribute KongTarget target){
+        kongDashboardService.addTarget(target);
+        return "redirect:/kong/upstreams/" + target.getUpstream().getId() + "/targets";
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/upstreams/{upstream_id}/targets/{target_id}/del", method = RequestMethod.DELETE)
+    public void delTarget(@PathVariable String upstream_id, @PathVariable String target_id){
+        kongDashboardService.deleteTarget(upstream_id, target_id);
+    }
+
+
     @RequestMapping(value = "/plugins",method = RequestMethod.GET)
     public String getPluginsList(ModelMap map,@RequestParam(value = "service",required = false) String service,
                                  @RequestParam(value = "route_id",required = false) String route_id){

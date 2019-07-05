@@ -26,14 +26,16 @@
                         <th scope="row" th:text="${target.weight}"></th>
                         <td th:text="${#dates.format(target.created_at * 1000, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td>
-                            <a class="btn btn-primary" th:href="@{'/kong/targets/'+${target.id}}">update</a>
-                            <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:value="${target.id}">delete</a>
+                            <a class="btn btn-danger btn-delete" href="javascript:void(0)" th:upstream="${upstream.id}" th:value="${target.id}">delete</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <div><a class="btn btn-primary" href="/kong/targets/add" role="button">add target</a></div>
+            <div>
+                <a class="btn btn-primary" th:href="@{'/kong/upstreams/' + ${upstream.id} + '/targets/add'}" role="button">add target</a>
+                <input class="btn " type="button" value="go back" onclick="history.back()"/>
+            </div>
         </div>
         <script type="application/javascript">
             $(function(){
@@ -42,7 +44,8 @@
                         return;
                     }
                     var target_id = $(this).attr('value');
-                    var url = "/kong/targets/"+target_id + "/del";
+                    var upstream_id = $(this).attr('upstream');
+                    var url = "/kong/upstreams/" + upstream_id + "/targets/"+target_id + "/del";
                     $.ajax({
                         url: url,
                         async: false,
