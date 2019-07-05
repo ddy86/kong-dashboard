@@ -175,6 +175,41 @@ public class KongDashboardController {
         return "upstreams";
     }
 
+    @RequestMapping(value = "/upstreams/add", method = RequestMethod.GET)
+    public String addUpstream(ModelMap map){
+        KongUpstream upstream = new KongUpstream();
+        map.addAttribute("upstream",upstream);
+        map.addAttribute("action","add");
+        map.addAttribute("nav_upstream", true);
+        return "upstreamForm";
+    }
+
+    @RequestMapping(value = "/upstreams/save", method = RequestMethod.POST)
+    public String saveUpstream(@ModelAttribute KongUpstream upstream) {
+        if(StringUtils.isEmpty(upstream.getId())){
+            kongDashboardService.addUpstream(upstream);
+        }else{
+            kongDashboardService.updateUpstream(upstream);
+        }
+
+        return "redirect:/kong/upstreams/";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/upstreams/{upstream_id}/del",method = RequestMethod.DELETE)
+    public void delUpstream(@PathVariable String upstream_id){
+        kongDashboardService.deleteUpstream(upstream_id);
+    }
+
+    @RequestMapping(value = "/upstreams/{upstream_id}",method = RequestMethod.GET)
+    public String updateUpstream(ModelMap map, @PathVariable String upstream_id){
+        final KongUpstream upstream = kongDashboardService.getUpstream(upstream_id);
+        map.addAttribute("upstream", upstream);
+        map.addAttribute("action", "update");
+        map.addAttribute("nav_upstream", true);
+        return "upstreamForm";
+    }
+
     @RequestMapping(value = "/upstreams/{upstream_id}/targets", method = RequestMethod.GET)
     public String getTargets(ModelMap map,@PathVariable(value = "upstream_id") String upstream_id){
         List<KongTarget> targets = kongDashboardService.getTargets(upstream_id);

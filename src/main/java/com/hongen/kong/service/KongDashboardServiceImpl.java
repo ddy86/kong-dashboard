@@ -674,6 +674,47 @@ public class KongDashboardServiceImpl implements KongDashboardService {
     }
 
     @Override
+    public KongUpstream getUpstream(String upstream_id) {
+        String url = kongServer + "/upstreams/" + upstream_id;
+        String data = HttpRequestUtils.get(url);
+        return JSON.parseObject(data, new TypeReference<KongUpstream>(){});
+    }
+
+    @Override
+    public void addUpstream(KongUpstream upstream) {
+        String url = kongServer + "/upstreams";
+        Map<String,Object> map = new HashMap<>();
+        map.put("name",upstream.getName());
+        String json = JSON.toJSONString(map);
+        logger.info("add upstream {}", json);
+        String data = HttpRequestUtils.post(url, json);
+        logger.info("add upstream result:", data);
+    }
+
+    @Override
+    public void updateUpstream(KongUpstream upstream) {
+        String url = kongServer + "/upstreams/" + upstream.getId();
+        Map<String,Object> map = new HashMap<>();
+        map.put("name",upstream.getName());
+        try {
+            HttpClientUtil.patch(
+                    HttpConfig.custom().url(url).map(map)
+            );
+        } catch (HttpProcessException e) {
+            e.printStackTrace();
+            logger.error("update upstream {}, error: {}",upstream.getName(),e.getMessage());
+        }
+        logger.info("update upstream {} success!", upstream.getName());
+    }
+
+    @Override
+    public void deleteUpstream(String upstream_id) {
+        String url = kongServer + "/upstreams/" + upstream_id;
+        final String data = HttpRequestUtils.delete(url);
+        logger.info("delete upstream {} success! data:{}",upstream_id,data);
+    }
+
+    @Override
     public List<KongTarget> getTargets(String upstream) {
         String url = kongServer + "/upstreams/" + upstream + "/targets";
         String data = HttpRequestUtils.get(url);
@@ -681,10 +722,4 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         return vo.getData();
     }
 
-    @Override
-    public KongUpstream getUpstream(String upstream_id) {
-        String url = kongServer + "/upstreams/" + upstream_id;
-        String data = HttpRequestUtils.get(url);
-        return JSON.parseObject(data, new TypeReference<KongUpstream>(){});
-    }
 }

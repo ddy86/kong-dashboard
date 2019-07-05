@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>upstreamAdd</title>
+    </head>
+
+    <body>
+        <div th:include="top :: html"></div>
+        <div class="contentDiv">
+            <legend>
+                <strong><label th:text="${action}"></label> upstream</strong>
+            </legend>
+
+            <form action="/kong/upstreams/save" method="post" class="form-horizontal">
+                <input type="hidden" th:value="${upstream.id}" id="upstream_id" name="id"/>
+                <div class="form-group">
+                    <label for="upstream_name" class="col-sm-2 control-label">name</label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="upstream_name" name="name" th:value="${upstream.name}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input class="btn btn-primary" type="submit" value="submit"/>&nbsp;&nbsp;
+                        <input class="btn " type="button" value="go back" onclick="history.back()"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
