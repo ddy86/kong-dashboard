@@ -45,7 +45,7 @@ docker-build:
   - test -z "$(docker images | grep $app | grep $version)" && exit -1
   - docker login -uadmin -p$HARBOR_PASSWORD harbor.corp.hongen.com
   - docker push harbor.corp.hongen.com/hongen/$app:$version
-  - if [[ "$version" =~ ^v.* ]];then
+  - if [[ $(echo $version | grep "^v") ]];then
       adapter_version="dev-1.0.1";
     else
       adapter_version="pro-1.0.1";
