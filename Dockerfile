@@ -1,6 +1,5 @@
 From harbor.corp.hongen.com/library/openjdk:8
 
-MAINTAINER {info}
 
 ADD target/*.jar /app.jar
 
