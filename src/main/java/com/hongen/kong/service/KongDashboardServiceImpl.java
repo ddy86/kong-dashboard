@@ -203,7 +203,11 @@ public class KongDashboardServiceImpl implements KongDashboardService {
         }
         String data = result.body();
         final KongPluginsVo pluginsVo = JSON.parseObject(data, new TypeReference<KongPluginsVo>() {});
-        return pluginsVo.getData();
+        List<KongPlugin> kongPlugins = pluginsVo.getData();
+        kongPlugins.sort(
+                Comparator.comparing(KongPlugin :: getRouteId)
+                        .thenComparing(KongPlugin :: getName));
+        return kongPlugins;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.hongen.kong.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 /**
@@ -107,5 +109,12 @@ public class KongPlugin {
         this.created_at = created_at;
     }
 
+    @JsonIgnore
+    public String getRouteId(){
+        if(null == route){
+            return "z";
+        }
+        return route.getId();
+    }
 
 }
