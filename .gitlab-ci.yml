@@ -38,8 +38,8 @@ docker-build:
   - ls target
   - ls /
   - echo "docker passwd is $HARBOR_PASSWORD"
-  - echo "$CI_COMMIT_MESSAGE"
-  - sed -i "s/{info}/$CI_COMMIT_MESSAGE/g" Dockerfile;grep "MAINTAINER" Dockerfile
+  - echo "$CI_COMMIT_MESSAGE";ci_message="$CI_COMMIT_MESSAGE"
+  - sed -i "s/{info}/$ci_message/g" Dockerfile;grep "MAINTAINER" Dockerfile
   - docker build -t harbor.corp.hongen.com/hongen/$app:$version .
   - docker images | grep $app
   - test -z "$(docker images | grep $app | grep $version)" && exit -1
