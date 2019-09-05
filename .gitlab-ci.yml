@@ -46,9 +46,9 @@ docker-build:
   - docker login -uadmin -p$HARBOR_PASSWORD harbor.corp.hongen.com
   - docker push harbor.corp.hongen.com/hongen/$app:$version
   - if [[ "$version" =~ ^v.* ]];then
-      adapter_version="dev-1.0.1"
+      adapter_version="dev-1.0.1";
     else
-      adapter_version="pro-1.0.1"
+      adapter_version="pro-1.0.1";
     fi
   - echo "update $app to $version for $adapter_version"
   - docker run --rm harbor.corp.hongen.com/hongen/k8s-adapter:$adapter_version python3 update_deployment.py $app $version
