@@ -33,7 +33,7 @@ docker-build:
   - master
   script:
   - export version=$CI_COMMIT_REF_NAME
-  - export app=kong-dashboard
+  - export app=$CI_PROJECT_NAME
   - ls -al ./
   - ls target
   - ls /
