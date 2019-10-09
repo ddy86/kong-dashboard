@@ -21,4 +21,4 @@ java 8.0 +, maven 3 +
         -DKONG_LOG_LEVEL=debug \
         -jar kong-dashboard-xxx.jar 
     
-default username：admin
+admin username：admin
