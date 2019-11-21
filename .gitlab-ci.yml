@@ -37,7 +37,6 @@ docker-build:
   - ls -al ./
   - ls target
   - ls /
-  - echo "docker passwd is $HARBOR_PASSWORD"
   - echo "$CI_PROJECT_NAME $CI_COMMIT_MESSAGE"
   - sed -i "2a MAINTAINER $CI_COMMIT_MESSAGE" Dockerfile;grep "MAINTAINER" Dockerfile
   - docker build -t harbor.corp.hongen.com/hongen/$app:$version .
@@ -46,9 +45,14 @@ docker-build:
   - docker login -uadmin -p$HARBOR_PASSWORD harbor.corp.hongen.com
   - docker push harbor.corp.hongen.com/hongen/$app:$version
   - if [[ $(echo $version | grep "^v") ]];then
-      adapter_version="dev-1.0.1";
+      adapter_version="$VERSION_ADAPTER_DEV";
+    elif [[ $(echo $version | grep "^t") ]];then
+      adapter_version="$VERSION_ADAPTER_TEST";
+    elif [[ $(echo $version | grep "^r") ]];then
+      adapter_version="$VERSION_ADAPTER_PRO";
     else
-      adapter_version="pro-1.0.1";
+      echo "version name is invalidate, $version, not update to k8s"
+      exit 0
     fi
   - echo "update $app to $version for $adapter_version"
   - docker run --rm harbor.corp.hongen.com/hongen/k8s-adapter:$adapter_version python3 update_deployment.py $app $version
