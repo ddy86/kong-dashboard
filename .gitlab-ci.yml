@@ -33,6 +33,16 @@ docker-build:
   - master
   script:
   - export version=$CI_COMMIT_REF_NAME
+  - if [[ $(echo $version | grep "^v") ]];then
+      adapter_version="$VERSION_ADAPTER_DEV";
+    elif [[ $(echo $version | grep "^t") ]];then
+      adapter_version="$VERSION_ADAPTER_TEST";
+    elif [[ $(echo $version | grep "^r") ]];then
+      adapter_version="$VERSION_ADAPTER_PRO";
+    else
+      echo "version name is invalidate, $version, not update to k8s";
+      exit 0;
+    fi
   - export app=$CI_PROJECT_NAME
   - ls -al ./
   - ls target
@@ -44,16 +54,6 @@ docker-build:
   - test -z "$(docker images | grep $app | grep $version)" && exit -1
   - docker login -uadmin -p$HARBOR_PASSWORD harbor.corp.hongen.com
   - docker push harbor.corp.hongen.com/hongen/$app:$version
-  - if [[ $(echo $version | grep "^v") ]];then
-      adapter_version="$VERSION_ADAPTER_DEV";
-    elif [[ $(echo $version | grep "^t") ]];then
-      adapter_version="$VERSION_ADAPTER_TEST";
-    elif [[ $(echo $version | grep "^r") ]];then
-      adapter_version="$VERSION_ADAPTER_PRO";
-    else
-      echo "version name is invalidate, $version, not update to k8s"
-      exit 0
-    fi
   - echo "update $app to $version for $adapter_version"
   - docker run --rm harbor.corp.hongen.com/hongen/k8s-adapter:$adapter_version python3 update_deployment.py $app $version
       
