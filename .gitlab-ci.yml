@@ -14,7 +14,7 @@ build:
   variables:
     MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
     MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
-  script: "mvn $MAVEN_CLI_OPTS package -Dmaven.test.skip=true -B"
+  script: "mvn $MAVEN_CLI_OPTS package -Dmaven.test.skip=true -B;ls target"
   cache:
     paths:
     - .m2/repository/
