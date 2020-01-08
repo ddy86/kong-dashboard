@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.hongen.kong.model.*;
 import com.hongen.kong.service.KongDashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,14 @@ public class KongDashboardController {
 
     @Autowired
     KongDashboardService kongDashboardService;
+    @Value("${KONG_ENVIRONMENT_TYPE}")
+    String environmentType;
+
+    @ModelAttribute
+    public void addAttributes(Model model) {
+        String title = null == environmentType ? "" : environmentType + "-";
+        model.addAttribute("title", title);
+    }
 
     @RequestMapping(value = "/services",method = RequestMethod.GET)
     public String getServiceList(ModelMap map){

@@ -1,7 +1,10 @@
 package com.hongen.kong.web;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping()
 public class DefaultController {
+
+    @Value("${KONG_ENVIRONMENT_TYPE}")
+    String environmentType;
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(){
@@ -27,5 +33,11 @@ public class DefaultController {
     @GetMapping("/403")
     public String error403() {
         return "error/403";
+    }
+
+    @ModelAttribute
+    public void addAttributes(Model model) {
+        String title = null == environmentType ? "" : environmentType + "-";
+        model.addAttribute("title", title);
     }
 }
