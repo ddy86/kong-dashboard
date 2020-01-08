@@ -37,7 +37,7 @@ public class DefaultController {
 
     @ModelAttribute
     public void addAttributes(Model model) {
-        String title = null == environmentType ? "" : environmentType + "-";
+        String title = "${KONG_ENVIRONMENT_TYPE}".equals(environmentType) ? "" : environmentType + "-";
         model.addAttribute("title", title);
     }
 }
