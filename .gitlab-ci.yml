@@ -52,7 +52,7 @@ docker-build:
   - docker build -t harbor.corp.hongen.com/hongen/$app:$version .
   - docker images | grep $app
   - test -z "$(docker images | grep $app | grep $version)" && exit -1
-  - docker login -uadmin -p$HARBOR_PASSWORD harbor.corp.hongen.com
+  - echo "$HARBOR_PASSWORD" | docker login harbor.corp.hongen.com --username admin --password-stdin
   - docker push harbor.corp.hongen.com/hongen/$app:$version
   - echo "update $app to $version for $adapter_version"
   - docker run --rm harbor.corp.hongen.com/hongen/k8s-adapter:$adapter_version python3 update_deployment.py $app $version
